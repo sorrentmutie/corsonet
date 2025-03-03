@@ -1,2 +1,2 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Ciao, mondo!");
+﻿Console.WriteLine("Ciao, mondo!");
+var libro = new Libro();
