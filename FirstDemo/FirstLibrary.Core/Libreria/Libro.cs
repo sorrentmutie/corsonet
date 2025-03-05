@@ -1,5 +1,22 @@
-﻿namespace FirstLibrary.Core.Libreria;
+﻿using FirstLibrary.Core.Common;
 
-public class Libro
+namespace FirstLibrary.Core.Libreria;
+
+public class Libro: Entity
 {
+    public required string Titolo { get; set; }
+    public string? ISBN { get; init; }
+   // public List<Autore> Autori { get; set; } = new();
+    public List<Autore>? Autori { get; set; }
+
+
+
+    //public Libro(string titolo)
+    //{
+    //    Titolo = titolo;
+    //}
+
+    //public Libro()
+    //{
+    //}
 }
