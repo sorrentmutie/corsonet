@@ -1,0 +1,41 @@
+﻿@page "/"
+@inject IConferenze servizioConferenze
+
+@using FirstDemo.BLazor.Server.Services
+
+<PageTitle>Index</PageTitle>
+
+<ListaEventi Eventi="eventiFuturi" Titolo="@titolo" OnEventoEliminato="EliminaEvento"/>
+<button @onclick="() => CambiaTitolo()">Cambia Titolo</button>
+
+@code {
+    private string titolo = "Eventi futuri";
+   
+    private List<Evento>? eventiFuturi;
+    // {
+    //     new Evento(){Id=1, Nome="Evento 1", DataInizio=DateTime.Now, Luogo = "Napoli" },
+    //     new Evento(){Id=2, Nome="Evento 2", DataInizio=DateTime.Now.AddDays(1), Luogo = "Milano"},
+    //     new Evento(){Id=3, Nome="Evento 3", DataInizio=DateTime.Now, Luogo = "Verona"},
+    //     new Evento(){Id=4, Nome="Evento 4", DataInizio=DateTime.Now, Luogo = "Venezia"},
+    //     new Evento(){Id=5, Nome="Evento 5", DataInizio=DateTime.Now, Luogo = "Roma"}
+    // };
+
+
+    protected override void OnInitialized()
+    {
+        //var gestoreEventi = new GestoreConferenze();
+        eventiFuturi = servizioConferenze.EstraiEventiFuturi();
+    }
+
+
+    private void EliminaEvento(Evento evento)
+    {
+        eventiFuturi?.Remove(evento);
+    }
+
+    private void CambiaTitolo()
+    {
+        titolo += "!";  
+    }
+
+}
