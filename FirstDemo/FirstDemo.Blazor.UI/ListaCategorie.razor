@@ -1,0 +1,35 @@
+﻿@using FirstLibrary.Core.Northwind
+
+@inject ICategorie servizioCategorie
+
+<h3>Lista Categorie</h3>
+
+@if (categorie is not null && categorie.Any())
+{
+    
+        @foreach (var categoria in categorie)
+        {
+        <div class="card text-bg-success  mb-3" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">@categoria.Nome</h5>
+                    <p>@categoria.NumeroProdotti</p>
+                    <p class="card-text">@categoria.Descrizione</p>
+                </div>
+            </div>
+        }
+    
+}
+else
+{
+    <p>Non ci sono categorie</p>
+}
+
+
+@code {
+    List<Categoria>? categorie = new(); 
+
+    protected override async Task OnInitializedAsync()
+    {
+        categorie = (await servizioCategorie.GetCategorie()).ToList();
+    }
+}

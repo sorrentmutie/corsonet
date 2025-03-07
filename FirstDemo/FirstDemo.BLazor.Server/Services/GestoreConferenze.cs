@@ -4,6 +4,14 @@ namespace FirstDemo.BLazor.Server.Services;
 
 public class GestoreConferenzeOracle : IConferenze
 {
+
+    public GestoreConferenzeOracle()
+    {
+
+    }
+
+    public int NumeroConteggi { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
     public List<Evento>? EstraiEventiFuturi()
     {
         throw new NotImplementedException();
@@ -27,11 +35,25 @@ public class GestoreConferenzeOracle : IConferenze
 
 public class GestoreConferenze: IConferenze
 {
+    private readonly ITrasformazioneTesto trasformazioneTesto;
+    private readonly IConfiguration configuration;
+
+    public GestoreConferenze(ITrasformazioneTesto trasformazioneTesto, IConfiguration configuration)
+    {
+        NumeroConteggi = 0;
+        this.trasformazioneTesto = trasformazioneTesto;
+        this.configuration = configuration;
+        var x = configuration["Chiave1"];
+    }
+
+    public int NumeroConteggi { get; set; }
+
     public List<Evento>? EstraiEventiFuturi()
     {
+        NumeroConteggi++;
         return new List<Evento>()
         {
-            new Evento(){Id=1, Nome="Evento 1", DataInizio=DateTime.Now, Luogo = "Napoli" },
+            new Evento(){Id=1, Nome= trasformazioneTesto.TrasformaTesto("Evento 1"), DataInizio=DateTime.Now, Luogo = "Napoli" },
             new Evento(){Id=2, Nome="Evento 2", DataInizio=DateTime.Now.AddDays(1), Luogo = "Milano"},
             new Evento(){Id=3, Nome="Evento 3", DataInizio=DateTime.Now, Luogo = "Verona"},
             new Evento(){Id=4, Nome="Evento 4", DataInizio=DateTime.Now, Luogo = "Venezia"},

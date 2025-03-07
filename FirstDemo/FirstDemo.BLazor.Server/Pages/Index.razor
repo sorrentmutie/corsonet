@@ -7,6 +7,7 @@
 
 <ListaEventi Eventi="eventiFuturi" Titolo="@titolo" OnEventoEliminato="EliminaEvento"/>
 <button @onclick="() => CambiaTitolo()">Cambia Titolo</button>
+<p>@servizioConferenze.NumeroConteggi</p>
 
 @code {
     private string titolo = "Eventi futuri";

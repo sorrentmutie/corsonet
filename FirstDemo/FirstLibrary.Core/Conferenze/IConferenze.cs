@@ -6,4 +6,5 @@ public interface  IConferenze
     List<Evento>? EstraiEventiPassati();
     Task<List<Evento>> EstraiEventiFuturiAsync();
     Task<List<Evento>> EstraiEventiPasstiAsync();
+    int NumeroConteggi { get; set; }
 }

@@ -1,5 +1,6 @@
 ﻿@page "/eventipassati"
 @using FirstDemo.BLazor.Server.Services
+@inject IConferenze servizioConferenze
 
 <ListaEventi Eventi="eventiPassati" Titolo="Eventi passati" OnEventoEliminato="EliminaEventoPassato" />
 
@@ -8,8 +9,8 @@
 
     protected override void OnInitialized()
     {
-        var gestoreEventi = new GestoreConferenze();
-        eventiPassati = gestoreEventi.EstraiEventiPassati();
+        // var gestoreEventi = new GestoreConferenze();
+        eventiPassati = servizioConferenze.EstraiEventiPassati();
     }
 
     private void EliminaEventoPassato(Evento evento)
