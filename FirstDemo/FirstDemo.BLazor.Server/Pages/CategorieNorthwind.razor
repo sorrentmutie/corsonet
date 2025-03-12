@@ -1,0 +1,66 @@
+﻿@page "/categorie"
+@using FirstDemo.Blazor.UI
+@using FirstLibrary.Core.Northwind
+
+@inject ICategorie categorieService
+
+@if(categorie is not null)
+{
+    <ListaCategorie Categorie="@categorie" OnCreaCategoria="CreaCategoria"
+    OnModifica="Modifica" OnCancella="Cancella"/>
+}
+
+@if(categoria is not null)
+{
+    <Dettaglio Categoria="@categoria" OnAnnulla="Annulla" OnSalva="Salva"></Dettaglio>
+}
+
+@code {
+    private List<Categoria>? categorie;
+    private Categoria? categoria;
+
+
+    private void Modifica(Categoria c)
+    {
+        categoria = c;
+        categorie = null;
+    }
+
+    private async Task Cancella(Categoria c)
+    {
+        await categorieService.DeleteCategoria(c.CategoryId);
+        categoria = null;
+        categorie = (await categorieService.GetCategorie()).ToList();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        categorie = (await categorieService.GetCategorie()).ToList();
+    }
+
+    private void CreaCategoria()
+    {
+        categoria = new Categoria() {  Nome = ""};
+        categorie = null;
+    }
+
+    private async Task Salva(Categoria c)
+    {
+        if(c.CategoryId == 0)
+        {
+            await categorieService.CreateCategoria(c);
+        } else
+        {
+            await categorieService.UpdateCategoria(c);
+        }
+        categorie = (await categorieService.GetCategorie()).ToList();
+        categoria = null;
+    }
+
+    private async Task Annulla()
+    {
+        categoria = null;
+        categorie = (await categorieService.GetCategorie()).ToList();
+    }
+
+}

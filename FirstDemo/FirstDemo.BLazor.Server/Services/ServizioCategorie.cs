@@ -41,32 +41,50 @@ public class ServizioCategorie : ICategorie
 
     public async Task<Categoria?> GetCategoria(int id)
     {
-        var category = await database.Categories.FirstOrDefaultAsync(x => x.CategoryId == id);
+        var category = await database.Categories
+            .AsNoTracking()
+            .Include(p => p.Products)
+                .ThenInclude(p => p.Supplier)
+            .Include(p => p.Products)
+                .ThenInclude(p => p.OrderDetails)
+            .FirstOrDefaultAsync(x => x.CategoryId == id);
         return category == null ? null : new Categoria
         {
             CategoryId = category.CategoryId,
             Descrizione = category.Description,
             Nome = category.CategoryName,
-            NumeroProdotti = category.Products.Count
+            NumeroProdotti = category.Products.Count,
+            Prodotti = category.Products.Select(p => new Prodotto
+            {
+                Id = p.ProductId,
+                Nome = p.ProductName,
+                PrezzoUnitario = p.UnitPrice,
+                Giacenza = p.UnitsInStock,
+                ScortaMinima = p.ReorderLevel,
+                Fornitore = p.Supplier?.CompanyName,
+                NumeroOrdini = p.OrderDetails.Count
+            }).ToList()
         };
     }
 
     public async Task<IEnumerable<Categoria>> GetCategorie()
     {
         return await database.Categories
-            .Select(c => new Categoria { 
-                CategoryId = c.CategoryId, 
+            .Select(c => new Categoria
+            {
+                CategoryId = c.CategoryId,
                 Descrizione = c.Description,
                 Nome = c.CategoryName,
                 NumeroProdotti = c.Products.Count
             })
+            .OrderBy(c => c.Nome)
             .ToListAsync();
     }
 
     public async Task UpdateCategoria(Categoria categoria)
     {
-        var dbCategory = await database.Categories.FindAsync(categoria.CategoryId);  
-        if(dbCategory is not null)
+        var dbCategory = await database.Categories.FindAsync(categoria.CategoryId);
+        if (dbCategory is not null)
         {
             //database.Entry(dbCategory).State = EntityState.Modified;
 

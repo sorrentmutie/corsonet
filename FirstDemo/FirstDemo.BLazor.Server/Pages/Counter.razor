@@ -1,7 +1,6 @@
 ﻿@page "/counter"
 @using FirstDemo.Blazor.UI
 @using FirstLibrary.Core.Northwind
-@inject ICategorie categorieService
 
 <PageTitle>Counter</PageTitle>
 
@@ -13,21 +12,22 @@
 
 <Component1/>
 
-<ListaCategorie/>
 
 
 @code {
     private int currentCount = 0;
+    private List<Categoria>? categorie;
 
-    private async Task IncrementCount()
+
+    private void IncrementCount()
     {
         currentCount++;
-        var nuovaCategoria = new Categoria
-            {
-                Nome = "Cat300",
-                Descrizione = "Descrizione nuovissima categoria"
-            };
-        await categorieService.CreateCategoria(nuovaCategoria);
+        // var nuovaCategoria = new Categoria
+        //     {
+        //         Nome = "Cat300",
+        //         Descrizione = "Descrizione nuovissima categoria"
+        //     };
+        // await categorieService.CreateCategoria(nuovaCategoria);
 
     }
 }

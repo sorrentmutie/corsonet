@@ -1,23 +1,37 @@
 ﻿@using FirstLibrary.Core.Northwind
-
-@inject ICategorie servizioCategorie
+@inject NavigationManager navigationManager
 
 <h3>Lista Categorie</h3>
+<button @onclick="() => OnCreaCategoria.InvokeAsync()" class="btn btn-info">Crea Categoria</button>
+<br/>
 
-@if (categorie is not null && categorie.Any())
+@if (Categorie is not null && Categorie.Any())
 {
-    
-        @foreach (var categoria in categorie)
-        {
-        <div class="card text-bg-success  mb-3" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">@categoria.Nome</h5>
-                    <p>@categoria.NumeroProdotti</p>
-                    <p class="card-text">@categoria.Descrizione</p>
-                </div>
-            </div>
-        }
-    
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Descrizione</th>
+                <th>Numero Prodotti</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var categoria in Categorie)
+            {
+                <tr>
+                    <td>@categoria.Nome</td>
+                    <td>@categoria.Descrizione</td>
+                    <td>@categoria.NumeroProdotti</td>
+                    <td>
+                        <button class="btn btn-info" @onclick="() => VaiADettaglio(categoria)">Dettagli</button>
+                        <button class="btn btn-warning" @onclick="() => OnModifica.InvokeAsync(categoria)"  >Modifica</button>
+                        <button class="btn btn-danger" @onclick="() => OnCancella.InvokeAsync(categoria)">Cancella</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 else
 {
@@ -26,10 +40,23 @@ else
 
 
 @code {
-    List<Categoria>? categorie = new(); 
 
-    protected override async Task OnInitializedAsync()
+
+    [Parameter]
+    public List<Categoria>? Categorie { get; set; } 
+
+    [Parameter]
+    public EventCallback OnCreaCategoria { get; set; }
+
+    [Parameter]
+    public EventCallback<Categoria> OnModifica { get; set; }
+
+    [Parameter]
+    public EventCallback<Categoria> OnCancella { get; set; }
+
+
+    private void VaiADettaglio(Categoria categoria)
     {
-        categorie = (await servizioCategorie.GetCategorie()).ToList();
+        navigationManager.NavigateTo($"dettagliocategoria/{categoria.CategoryId}");
     }
 }

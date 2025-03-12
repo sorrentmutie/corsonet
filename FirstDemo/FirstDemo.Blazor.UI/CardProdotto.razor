@@ -1,0 +1,24 @@
+﻿@using FirstLibrary.Core.Northwind
+
+@if(Prodotto is not null)
+{
+    <div class="card text-white @CssClass mb-3" style="width: 18rem;">
+        <div class="card-header">
+            <h5 class="card-title">@Prodotto.Nome</h5>
+        </div>
+        <div class="card-body">
+            <p>@Prodotto.PrezzoUnitario</p>
+            <p>@Prodotto.Giacenza</p>
+            <p>@Prodotto.Fornitore</p>
+            <p>@Prodotto.NumeroOrdini</p>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public Prodotto? Prodotto { get; set; }
+
+    [Parameter]
+    public string? CssClass { get; set; }
+}

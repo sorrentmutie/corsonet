@@ -1,0 +1,45 @@
+﻿@page "/dettagliocategoria/{id}"
+@using FirstLibrary.Core.Northwind
+@using FirstDemo.Blazor.UI
+@inject ICategorie categorieService
+
+
+@if (categoria != null)
+{
+    <h3>@categoria.Nome</h3>
+    <p>@categoria.Descrizione</p>
+
+    @if(categoria.Prodotti is not null)
+    {
+        @foreach (var prodotto in categoria.Prodotti)
+        {
+            @if(prodotto.Giacenza < 5)
+            {
+               <CardProdotto CssClass="bg-danger" Prodotto="prodotto"></CardProdotto>
+
+            } else
+            {
+                <CardProdotto CssClass="bg-success" Prodotto="prodotto"></CardProdotto>
+            }
+        }
+
+    }
+
+}
+else
+{
+    <p>Caricamento in corso...</p>
+}
+
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    private Categoria? categoria;
+
+    protected async override Task OnInitializedAsync()
+    {
+       categoria =  await categorieService.GetCategoria(int.Parse(Id));
+    } 
+}
