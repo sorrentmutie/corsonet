@@ -1,3 +1,4 @@
+using FirstDemo.API.Extensions;
 using FirstDemo.Data.Models;
 using FirstLibrary.Core.Northwind;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,10 @@ builder.Services.AddDbContext<NorthwindContext>(opzioni =>
 {
     opzioni.UseSqlServer(builder.Configuration.GetConnectionString("NorthwindConnection"));
 });
-
+builder.Services.AddCors(o => o.AddPolicy("Policy", policy =>
+{
+    policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+}));
 
 var app = builder.Build();
 
@@ -24,42 +28,20 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("Policy");
+var group = app.MapGroup("/categories");
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+group.MapGet("/", CategorieEndpoints.EstraiTutti)
+    .WithName("GetCategories")
+    .WithOpenApi();
 
-app.MapGet("/categories", 
-       async (NorthwindContext db) => { 
-          var categories = await db.Categories
-           .Include(c => c.Products)
-           .Select(c => new Categoria { Nome = c.CategoryName, 
-               Descrizione = c.Description, CategoryId = c.CategoryId,
-           NumeroProdotti = c.Products.Count})
-           .ToListAsync();
-          return Results.Ok(categories);
-       });
+group.MapGet("/{id}", CategorieEndpoints.EstraiPerId);
+//group.MapGet("/search/{name}/page/{page}/results/{results}", CategorieEndpoints.EstraiPerNome);
 
+group.MapPost("/", CategorieEndpoints.Crea);
+group.MapDelete("/{id}", CategorieEndpoints.Cancella);
+group.MapPut("/{id}", CategorieEndpoints.Modifica);
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
 
 app.Run();
 
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

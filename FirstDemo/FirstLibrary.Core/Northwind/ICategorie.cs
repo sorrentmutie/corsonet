@@ -2,7 +2,7 @@
 
 public interface ICategorie
 {
-    Task<IEnumerable<Categoria>> GetCategorie();
+    Task<IEnumerable<Categoria>?> GetCategorie();
     Task<Categoria?> GetCategoria(int id);
     Task CreateCategoria(Categoria categoria);
     Task UpdateCategoria(Categoria categoria);
