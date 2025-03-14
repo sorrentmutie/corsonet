@@ -81,6 +81,19 @@ public class ServizioCategorie : ICategorie
             .ToListAsync();
     }
 
+    public IQueryable<Categoria>? GetCategorieQueryable()
+    {
+        return database.Categories
+            .Select( c => new Categoria
+            {
+                CategoryId = c.CategoryId,
+                Descrizione = c.Description,
+                Nome = c.CategoryName,
+                NumeroProdotti = c.Products.Count
+            })
+            .AsQueryable();
+    }
+
     public async Task UpdateCategoria(Categoria categoria)
     {
         var dbCategory = await database.Categories.FindAsync(categoria.CategoryId);

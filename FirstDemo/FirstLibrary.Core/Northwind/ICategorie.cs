@@ -3,6 +3,7 @@
 public interface ICategorie
 {
     Task<IEnumerable<Categoria>?> GetCategorie();
+    IQueryable<Categoria>? GetCategorieQueryable();
     Task<Categoria?> GetCategoria(int id);
     Task CreateCategoria(Categoria categoria);
     Task UpdateCategoria(Categoria categoria);

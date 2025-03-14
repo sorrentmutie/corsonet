@@ -39,7 +39,17 @@ public class ServizioWebCategorie : ICategorie
         return null;
     }
 
+    public Task<IQueryable<Categoria>> GetCategorieQueryable()
+    {
+        throw new NotImplementedException();
+    }
+
     public Task UpdateCategoria(Categoria categoria)
+    {
+        throw new NotImplementedException();
+    }
+
+    IQueryable<Categoria>? ICategorie.GetCategorieQueryable()
     {
         throw new NotImplementedException();
     }
