@@ -40,7 +40,15 @@ public static class CategorieEndpoints
                  Nome = c.CategoryName,
                  Descrizione = c.Description,
                  CategoryId = c.CategoryId,
-                 NumeroProdotti = c.Products.Count
+                 NumeroProdotti = c.Products.Count,
+                 Prodotti = c.Products.Select(p => new Prodotto
+                 {
+                     Id = p.ProductId,
+                     Nome = p.ProductName,
+                     PrezzoUnitario = p.UnitPrice ?? 0,
+                     Giacenza = p.UnitsInStock ?? 0,
+                    // Fornitore = p.Supplier?.CompanyName ?? "Sconosciuto"
+                 }).ToList()
              })
              .ToListAsync();
             return Results.Ok(categories);
