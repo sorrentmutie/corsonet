@@ -7,6 +7,9 @@ using FirstDemo.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using FirstLibrary.Core.Northwind;
 using FirstDemo.BLazor.UI.Services;
+using FirstDemo.Blazor.UI.DataServices;
+using FirstLibrary.Core.Common;
+using FirstDemo.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,14 +27,17 @@ builder.Services.AddDbContext<NorthwindContext>(opzioni =>
 });
 builder.Services.AddScoped<ICategorie, ServizioCategorie>();
 
-
-
+builder.Services.AddScoped
+    <IDataServices<ProdottoListitem, ProdottoDetails, int>, 
+     ProdottoDataService<ProdottoListitem, ProdottoDetails>>();
 
 // builder.Services.AddTransient<IConferenze, GestoreConferenze>();
 //builder.Services.AddScoped<IConferenze, GestoreConferenze>();
 // builder.Services.AddSingleton<IConferenze, GestoreConferenzeOracle>();
 
-
+builder.Services.AddScoped<IRepository<Product, int>, 
+    EFRepository<Product, int>>();
+builder.Services.AddScoped<DbContext, NorthwindContext>();
 
 
 

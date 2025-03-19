@@ -1,6 +1,10 @@
 ﻿@page "/counter"
 @using FirstDemo.Blazor.UI
+@using FirstDemo.Blazor.UI.DataServices
 @using FirstLibrary.Core.Northwind
+
+@inject IDataServices<ProdottoListitem, ProdottoDetails, int> servizioDati
+
 
 <PageTitle>Counter</PageTitle>
 
@@ -17,6 +21,13 @@
 @code {
     private int currentCount = 0;
     private List<Categoria>? categorie;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var data = await servizioDati.GetAllAsync();
+        currentCount = data.TotalItems;
+
+    }
 
 
     private void IncrementCount()

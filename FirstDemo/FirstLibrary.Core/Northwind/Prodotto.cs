@@ -1,5 +1,7 @@
 ﻿namespace FirstLibrary.Core.Northwind;
 
+
+
 public class Prodotto
 {
     public int Id { get; set; }

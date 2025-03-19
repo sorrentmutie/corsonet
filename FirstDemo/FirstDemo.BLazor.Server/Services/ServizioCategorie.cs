@@ -56,7 +56,7 @@ public class ServizioCategorie : ICategorie
             NumeroProdotti = category.Products.Count,
             Prodotti = category.Products.Select(p => new Prodotto
             {
-                Id = p.ProductId,
+                Id = p.Id,
                 Nome = p.ProductName,
                 PrezzoUnitario = p.UnitPrice,
                 Giacenza = p.UnitsInStock,

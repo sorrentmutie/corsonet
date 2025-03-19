@@ -10,11 +10,11 @@ public interface ICategorie
     Task DeleteCategoria(int id);
 }
 
-public interface IRepository<T,U>
-{
-    Task<IEnumerable<T>> GetAll();
-    Task<T?> Get(U id);
-    Task Create(T entity);
-    Task Update(T entity);
-    Task Delete(U id);
-}
+//public interface IRepository<T,U>
+//{
+//    Task<IEnumerable<T>> GetAll();
+//    Task<T?> Get(U id);
+//    Task Create(T entity);
+//    Task Update(T entity);
+//    Task Delete(U id);
+//}

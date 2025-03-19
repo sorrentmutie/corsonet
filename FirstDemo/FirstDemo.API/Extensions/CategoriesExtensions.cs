@@ -18,7 +18,7 @@ public static class CategoriesExtensions
             NumeroProdotti = category.Products.Count,
             Prodotti = category.Products.Select(p => new Prodotto
             {
-                Id = p.ProductId,
+                Id = p.Id,
                 Nome = p.ProductName,
                 PrezzoUnitario = p.UnitPrice ?? 0,
                 Giacenza = p.UnitsInStock ?? 0,
@@ -43,7 +43,7 @@ public static class CategorieEndpoints
                  NumeroProdotti = c.Products.Count,
                  Prodotti = c.Products.Select(p => new Prodotto
                  {
-                     Id = p.ProductId,
+                     Id = p.Id,
                      Nome = p.ProductName,
                      PrezzoUnitario = p.UnitPrice ?? 0,
                      Giacenza = p.UnitsInStock ?? 0,

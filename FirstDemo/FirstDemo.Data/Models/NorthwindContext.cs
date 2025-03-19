@@ -273,7 +273,7 @@ public partial class NorthwindContext : DbContext
 
             entity.HasIndex(e => e.SupplierId, "SuppliersProducts");
 
-            entity.Property(e => e.ProductId).HasColumnName("ProductID");
+            entity.Property(e => e.Id).HasColumnName("ProductID");
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.ProductName)
                 .IsRequired()
