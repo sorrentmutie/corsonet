@@ -1,7 +1,6 @@
 ﻿@page "/categorie"
 @using FirstDemo.Blazor.UI
 @using FirstLibrary.Core.Northwind
-@using Microsoft.EntityFrameworkCore
 
 @inject ICategorie categorieService
 
@@ -39,17 +38,17 @@
         var y = (await categorieService.GetCategorie());
         if(y is not null)
         {
-            categorie = y.Where(c => c.Nome.StartsWith("A")).ToList();
+            categorie = y.ToList();
         }
 
-        var x = (categorieService.GetCategorieQueryable());
-        if (x is not null)
-        {
-            var z =await  x.Where(x => x.Nome.StartsWith("A"))
-            .OrderBy(x => x.Nome)
-            .Skip(5).Take(10)
-            .ToListAsync();
-        } 
+        // var x = (categorieService.GetCategorieQueryable());
+        // if (x is not null)
+        // {
+        //     var z =await  x.Where(x => x.Nome.StartsWith("A"))
+        //     .OrderBy(x => x.Nome)
+        //     .Skip(5).Take(10)
+        //     .ToListAsync();
+        // } 
 
 
     }

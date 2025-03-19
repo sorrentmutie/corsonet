@@ -6,30 +6,54 @@ namespace FirstDemo.Blazor.WebAssembly.Services;
 public class ServizioWebCategorie : ICategorie
 {
     private readonly HttpClient httpClient;
+    private string baseAddress = "https://localhost:7199/";
 
     public ServizioWebCategorie(HttpClient httpClient)
     {
         this.httpClient = httpClient;
+        httpClient.BaseAddress = new Uri(baseAddress);
     }
 
-    public Task CreateCategoria(Categoria categoria)
+    public async Task CreateCategoria(Categoria categoria)
     {
-        throw new NotImplementedException();
+        var responseMessage = await httpClient.PostAsJsonAsync($"/categories/", categoria);
+        if(responseMessage.IsSuccessStatusCode == true)
+        {
+            return;
+        }
+        else
+        {
+            throw new Exception("Errore nel recupero della categoria");
+        }
     }
 
-    public Task DeleteCategoria(int id)
+    public async Task DeleteCategoria(int id)
     {
-        throw new NotImplementedException();
+        var responseMessage = await httpClient.DeleteAsync($"/categories/{id}");
+        if (responseMessage.IsSuccessStatusCode == true)
+        {
+            return;
+        }
+        else
+        {
+            throw new Exception("Errore nel recupero della categoria");
+        }
+
     }
 
-    public Task<Categoria?> GetCategoria(int id)
+    public async Task<Categoria?> GetCategoria(int id)
     {
-        throw new NotImplementedException();
+        var responseMessage = await httpClient.GetAsync($"/categories/{id}");
+        if (responseMessage.IsSuccessStatusCode == true)
+        {
+            return await responseMessage.Content
+                     .ReadFromJsonAsync<Categoria>();
+        }
+        return null;
     }
 
     public async Task<IEnumerable<Categoria>?> GetCategorie()
     {
-        httpClient.BaseAddress = new Uri("https://localhost:7199/");
         var responseMessage = await httpClient.GetAsync("/categories");
         if (responseMessage.IsSuccessStatusCode == true)
         {
@@ -39,14 +63,16 @@ public class ServizioWebCategorie : ICategorie
         return null;
     }
 
-    public Task<IQueryable<Categoria>> GetCategorieQueryable()
+    public async Task UpdateCategoria(Categoria categoria)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task UpdateCategoria(Categoria categoria)
-    {
-        throw new NotImplementedException();
+        var responseMessage = await httpClient.PutAsJsonAsync($"/categories/{categoria.CategoryId}", categoria);
+        if (responseMessage.IsSuccessStatusCode == true)
+        {
+            return;
+        } else
+        {
+            throw new Exception("Errore nel recupero della categoria");
+        }
     }
 
     IQueryable<Categoria>? ICategorie.GetCategorieQueryable()

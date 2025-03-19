@@ -17,4 +17,8 @@
     <ProjectReference Include="..\FirstLibrary.Core\FirstLibrary.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\" />
+  </ItemGroup>
+
 </Project>

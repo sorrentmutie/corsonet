@@ -6,6 +6,7 @@ using FirstDemo.BLazor.Server.Services;
 using FirstDemo.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using FirstLibrary.Core.Northwind;
+using FirstDemo.BLazor.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

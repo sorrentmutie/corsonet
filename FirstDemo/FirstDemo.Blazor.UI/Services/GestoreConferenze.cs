@@ -1,4 +1,5 @@
 ﻿using FirstLibrary.Core.Conferenze;
+using Microsoft.Extensions.Configuration;
 
 namespace FirstDemo.BLazor.Server.Services;
 

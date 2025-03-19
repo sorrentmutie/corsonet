@@ -1,5 +1,7 @@
-namespace FirstDemo.BLazor.Server.Data
-{
+using FirstDemo.BLazor.Server.Data;
+
+namespace FirstDemo.BLazor.UI.Services;
+
     public class WeatherForecastService
     {
         private static readonly string[] Summaries = new[]
@@ -17,4 +19,4 @@ namespace FirstDemo.BLazor.Server.Data
             }).ToArray());
         }
     }
-}
+
