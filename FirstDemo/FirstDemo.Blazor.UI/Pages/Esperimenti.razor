@@ -1,0 +1,16 @@
+﻿@page "/esperimenti"
+@inject IJSRuntime JSRuntime
+
+<h3> Esperimenti</h3>
+
+<Component1/>
+<button class="btn btn-success" @onclick="Carica">OK</button>
+
+
+@code {
+    private async Task Carica()
+    {
+        var interop = new ExampleJsInterop(JSRuntime);
+        await interop.Prompt("Salvatore");
+    }
+}

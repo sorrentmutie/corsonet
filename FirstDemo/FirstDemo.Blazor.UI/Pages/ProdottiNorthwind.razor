@@ -1,0 +1,94 @@
+﻿@page "/prodotti"
+@using FirstDemo.Blazor.UI.DataServices
+@inject IDataServices<ProdottoListitem, ProdottoDetails, int> ServizioProdotti
+
+
+@if (prodotti is not null)
+{
+    <ListaProdotti Prodotti="prodotti" OnCreaProdotto="CreaProdotto"
+    OnCancella="Cancella" OnModifica="Modifica"></ListaProdotti>
+}
+
+@if (prodotto is not null)
+{
+    <Dettaglio TItem="ProdottoDetails" Item="@prodotto" 
+    OnAnnulla="Annulla" OnSalva="Salva">
+        <ChildContent>
+            <MyInputTextBox Id="Nome" Label="Nome"
+            @bind-Value="prodotto.Nome" />
+
+            <MyInputShortBox Id="Giacenza" Label="Giacenza"
+            @bind-Value="prodotto.Giacenza"/>
+
+            <MyInputShortBox Id="Scorta" Label="Scorta Minima"
+            @bind-Value="prodotto.ScortaMinima" />
+
+            <MyInputDecimalBox Id="Prezzo" Label="Prezzo"
+            @bind-Value="prodotto.PrezzoUnitario" />
+
+
+            @* <MyInputTextBox Id="Descrizione" Label="Descrizione"
+            @bind-Value="prodotto.Descrizione" /> *@
+        </ChildContent>
+    </Dettaglio>
+}
+
+
+
+@code {
+
+    private List<ProdottoListitem>? prodotti;
+    private ProdottoDetails? prodotto;
+
+    protected override async Task OnInitializedAsync()
+    {
+        prodotti = (await ServizioProdotti.GetAllAsync()).Items;
+    }
+
+    private async Task Annulla()
+    {
+        prodotto = null;
+        prodotti = (await ServizioProdotti.GetAllAsync()).Items;
+    }
+
+    private async Task Salva(ProdottoDetails prodottoModificato)
+    {
+        if (prodottoModificato.Id == 0)
+        {
+            await ServizioProdotti.CreateAsync(prodottoModificato);
+        }
+        else
+        {
+            await ServizioProdotti.UpdateAsync(prodottoModificato);
+        }
+        prodotto = null;
+        prodotti = (await ServizioProdotti.GetAllAsync()).Items;
+    }
+
+    private async Task Cancella(ProdottoListitem prodottoDetails)
+    {
+        await ServizioProdotti.DeleteAsync(prodottoDetails!.Id);
+        prodotto = null;
+        prodotti = (await ServizioProdotti.GetAllAsync()).Items;
+    }
+
+    private void CreaProdotto()
+    {
+        prodotti = null;
+        prodotto = new ProdottoDetails();
+    }
+
+    private void Modifica(ProdottoListitem prodottoModificato)
+    {
+        prodotti = null;
+        prodotto = new ProdottoDetails
+            {
+                Id = prodottoModificato.Id,
+                Nome = prodottoModificato.Nome,
+                Giacenza = prodottoModificato.Giacenza ?? 0,
+                ScortaMinima = prodottoModificato.ScortaMinima,
+                PrezzoUnitario = prodottoModificato.PrezzoUnitario ?? 0
+            };
+    }
+
+}

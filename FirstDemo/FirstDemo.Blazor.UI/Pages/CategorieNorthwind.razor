@@ -12,7 +12,15 @@
 
 @if(categoria is not null)
 {
-    <Dettaglio Categoria="@categoria" OnAnnulla="Annulla" OnSalva="Salva"></Dettaglio>
+    <Dettaglio TItem="Categoria" Item="@categoria" OnAnnulla="Annulla" OnSalva="Salva">
+        <ChildContent>
+            <MyInputTextBox Id="Nome" Label="Nome"
+                @bind-Value="categoria.Nome"/>
+
+            <MyInputTextBox Id="Descrizione" Label="Descrizione"
+                @bind-Value="categoria.Descrizione" />
+        </ChildContent>
+    </Dettaglio>
 }
 
 @code {

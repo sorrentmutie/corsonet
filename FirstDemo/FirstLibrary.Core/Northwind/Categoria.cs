@@ -9,7 +9,7 @@ public  class Categoria
 
     [Required(ErrorMessage = "Il nome è obbligatorio")]
     [StringLength(15, ErrorMessage = "Il nome non può superare i 15 caratteri")]
-    public required string Nome { get; set; }
+    public string? Nome { get; set; }
 
     [Required(ErrorMessage = "La descrizione è obbligatoria")]
     public string? Descrizione { get; set; }

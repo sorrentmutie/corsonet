@@ -1,15 +1,24 @@
 ﻿@using FirstLibrary.Core.Northwind
 @using Microsoft.AspNetCore.Components.Forms
+@typeparam TItem where TItem : class, new()
 
 <h3>Dettaglio</h3>
 
-@if (Categoria is not null)
+
+
+@if (Item is not null)
 {
-    <EditForm Model="@Categoria" OnValidSubmit="@(() => OnSalva.InvokeAsync(Categoria))">
+    <EditForm Model="@Item" OnValidSubmit="@(() => OnSalva.InvokeAsync(Item))">
 
         <DataAnnotationsValidator />
 
-        <div class="form-group">
+        @if (ChildContent is not null)
+        {
+            @ChildContent(Item)
+        }
+
+
+       @*  <div class="form-group">
             <label for="Nome">Nome:</label>
             <InputText id="Nome" @bind-Value="Categoria.Nome" class="form-control" />
             <ValidationMessage For="@(() => Categoria.Nome)" />
@@ -19,7 +28,7 @@
             <label for="Descrizione">Descrizione:</label>
             <InputText id="Descrizione" @bind-Value="Categoria.Descrizione" class="form-control" />
             <ValidationMessage For="@(() => Categoria.Descrizione)" />
-        </div>
+        </div> *@
 
 
         <button type="submit" class="btn btn-info">OK</button>
@@ -35,12 +44,15 @@
 
 @code {
     [Parameter]
-    public Categoria? Categoria { get; set; } 
+    public TItem? Item { get; set; } 
 
     [Parameter]
-    public EventCallback<Categoria> OnSalva { get; set; }
+    public EventCallback<TItem> OnSalva { get; set; }
 
     [Parameter]
     public EventCallback OnAnnulla { get; set; }
+
+    [Parameter]
+    public RenderFragment<TItem>? ChildContent { get; set; }
 
 }

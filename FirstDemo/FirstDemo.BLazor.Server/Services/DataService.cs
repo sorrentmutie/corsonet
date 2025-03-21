@@ -43,6 +43,7 @@ public class ProdottoDataService<ListItemType, DetailsType>
                 Nome = x.ProductName,
                 NumeroOrdini = x.OrderDetails.Count,
                 PrezzoUnitario = x.UnitPrice,
+                 ScortaMinima = x.ReorderLevel ?? 0,
                 Id = x.Id
             }).ToListAsync();
         return new Page<ProdottoListitem, int>
@@ -65,8 +66,9 @@ public class ProdottoDataService<ListItemType, DetailsType>
         {
             Id = x.Id,
             Nome = x.ProductName,
-            PrezzoUnitario = x.UnitPrice,
-            Giacenza = x.UnitsInStock,
+            ScortaMinima = x.ReorderLevel ?? 0,
+            PrezzoUnitario = x.UnitPrice ?? 0,
+            Giacenza = x.UnitsInStock ?? 0,
             Fornitore = x.Supplier?.CompanyName ?? "Sconosciuto"
         };
 
@@ -80,74 +82,11 @@ public class ProdottoDataService<ListItemType, DetailsType>
             ProductName = details.Nome,
             UnitPrice = details.PrezzoUnitario,
             UnitsInStock = details.Giacenza,
+            ReorderLevel = details.ScortaMinima,
             Discontinued = false
         };
         await repository.UpdateAsync(entity);
 
     }
 
-    //public async Task CreateAsync(ProdottoDetails details)
-    //{
-    //    var entity = new Product
-    //    {
-    //        ProductName = details.Nome,
-    //        UnitPrice = details.PrezzoUnitario,
-    //        UnitsInStock = details.Giacenza,
-    //        Discontinued = false
-    //    };
-    //    await repository.AddAsync(entity);
-    //}
-
-
-
-    //public Task DeleteAsync(int id)
-    //{
-    //    throw new NotImplementedException();
-    //}
-
-    //public async Task<Page<ProdottoListitem,int>> GetAllAsync()
-    //{
-    //    var data = await repository.GetAll()
-    //        .Select(x => new ProdottoListitem
-    //        {
-    //            Giacenza = x.UnitsInStock,
-    //            Nome = x.ProductName,
-    //            NumeroOrdini = x.OrderDetails.Count,
-    //            PrezzoUnitario = x.UnitPrice,
-    //            Id = x.Id
-    //        }).ToListAsync();
-    //    return new Page<ProdottoListitem, int> { 
-    //     TotalItems = data.Count,
-    //     Items = data};
-
-    //}
-    //public async Task<ProdottoDetails?> GetAsync(int id)
-    //{
-    //    var x = await repository.GetByIdAsync(id);
-    //    if (x is null)
-    //    {
-    //        return null;
-    //    }
-    //    return new ProdottoDetails
-    //    {
-    //        Id = x.Id,
-    //        Nome = x.ProductName,
-    //        PrezzoUnitario = x.UnitPrice,
-    //        Giacenza = x.UnitsInStock,
-    //        Fornitore = x.Supplier?.CompanyName ?? "Sconosciuto"
-    //    };
-    //}
-
-    //public Task UpdateAsync(ProdottoDetails details)
-    //{
-    //    var entity = new Product
-    //    {
-    //        Id = details.Id,
-    //        ProductName = details.Nome,
-    //        UnitPrice = details.PrezzoUnitario,
-    //        UnitsInStock = details.Giacenza,
-    //        Discontinued = false
-    //    };
-    //    return repository.UpdateAsync(entity);
-    //}
 }

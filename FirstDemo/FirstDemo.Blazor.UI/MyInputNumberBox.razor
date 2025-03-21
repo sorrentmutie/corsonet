@@ -1,0 +1,18 @@
+﻿@using System.Linq.Expressions
+<div class="form-group">
+    <label for="@Id">@Label :</label>
+    <InputNumber id="@Id" Value="@Value"
+               ValueChanged="@ValueChanged"
+               ValueExpression="@ValueExpression"
+               class="form-control" />
+
+    <ValidationMessage For="@ValueExpression" />
+</div>
+
+@code {
+    [Parameter] public string Label { get; set; } = default!;
+    [Parameter] public string Id { get; set; } = "Id";
+    [Parameter] public int Value { get; set; } = default!;
+    [Parameter] public EventCallback<int> ValueChanged { get; set; }
+    [Parameter] public Expression<Func<int>>? ValueExpression { get; set; }
+}

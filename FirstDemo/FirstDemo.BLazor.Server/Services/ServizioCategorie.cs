@@ -58,7 +58,7 @@ public class ServizioCategorie : ICategorie
             {
                 Id = p.Id,
                 Nome = p.ProductName,
-                PrezzoUnitario = p.UnitPrice,
+                PrezzoUnitario = p.UnitPrice ?? 0,
                 Giacenza = p.UnitsInStock,
                 ScortaMinima = p.ReorderLevel,
                 Fornitore = p.Supplier?.CompanyName,

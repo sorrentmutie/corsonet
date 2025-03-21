@@ -10,7 +10,7 @@ public class Prodotto
 
    //  public int? SupplierId { get; set; }
 
-    public decimal? PrezzoUnitario { get; set; }
+    public decimal PrezzoUnitario { get; set; }
 
     public short? Giacenza { get; set; }
 

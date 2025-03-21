@@ -1,6 +1,8 @@
 ﻿@page "/"
 @inject IConferenze servizioConferenze
+@inject IJSRuntime jsRuntime
 
+@using FirstDemo.Blazor.UI.Interop
 @using FirstLibrary.Core.Conferenze
 
 <PageTitle>Index</PageTitle>
@@ -8,26 +10,21 @@
 <ListaEventi Eventi="eventiFuturi" Titolo="@titolo" OnEventoEliminato="EliminaEvento"/>
 <button @onclick="() => CambiaTitolo()">Cambia Titolo</button>
 <p>@servizioConferenze.NumeroConteggi</p>
+<button class="btn btn-danger" @onclick="Saluta">Saluta Da JavaScript</button>
+
+<button class="btn btn-warning" @onclick="InvocaJavaScript">Invoca Codice JavaScript</button>
+@somma
 
 @code {
     private string titolo = "Eventi futuri";
-   
-    private List<Evento>? eventiFuturi;
-    // {
-    //     new Evento(){Id=1, Nome="Evento 1", DataInizio=DateTime.Now, Luogo = "Napoli" },
-    //     new Evento(){Id=2, Nome="Evento 2", DataInizio=DateTime.Now.AddDays(1), Luogo = "Milano"},
-    //     new Evento(){Id=3, Nome="Evento 3", DataInizio=DateTime.Now, Luogo = "Verona"},
-    //     new Evento(){Id=4, Nome="Evento 4", DataInizio=DateTime.Now, Luogo = "Venezia"},
-    //     new Evento(){Id=5, Nome="Evento 5", DataInizio=DateTime.Now, Luogo = "Roma"}
-    // };
+    private int somma = 0;
 
+    private List<Evento>? eventiFuturi;
 
     protected override void OnInitialized()
     {
-        //var gestoreEventi = new GestoreConferenze();
         eventiFuturi = servizioConferenze.EstraiEventiFuturi();
     }
-
 
     private void EliminaEvento(Evento evento)
     {
@@ -39,4 +36,26 @@
         titolo += "!";  
     }
 
+    private async Task InvocaJavaScript()
+    {
+        somma =  await jsRuntime.InvokeAsync<int>("somma", 3, 4);
+        await jsRuntime.InvokeVoidAsync("saluta", "Mario");
+    }
+
+    private async Task Saluta()
+    {
+        //var helper = new HelloHelper("Salvatore");
+        //var obj = DotNetObjectReference.Create(helper);
+        //await jsRuntime.InvokeVoidAsync("ola", obj);
+        var myInterop = new HelloInterop(jsRuntime);
+        await myInterop.CallHelloHelper("Luisa");
+    }
+
+
+    [JSInvokable]
+    public static string Saluta(string nome)
+    {
+        return $"Ciao da {nome}";
+    }
 }
+
