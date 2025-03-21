@@ -39,8 +39,6 @@ builder.Services.AddScoped<IRepository<Product, int>,
     EFRepository<Product, int>>();
 builder.Services.AddScoped<DbContext, NorthwindContext>();
 
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
