@@ -10,6 +10,8 @@ using FirstDemo.BLazor.UI.Services;
 using FirstDemo.Blazor.UI.DataServices;
 using FirstLibrary.Core.Common;
 using FirstDemo.Data;
+using FirstDemo.Blazor.UI.Services;
+using FirstLibrary.Core.Mappe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +40,7 @@ builder.Services.AddScoped
 builder.Services.AddScoped<IRepository<Product, int>, 
     EFRepository<Product, int>>();
 builder.Services.AddScoped<DbContext, NorthwindContext>();
+builder.Services.AddScoped<IDatiMappa, GestioneMappe>();
 
 var app = builder.Build();
 

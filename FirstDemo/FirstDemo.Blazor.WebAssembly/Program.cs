@@ -6,6 +6,8 @@ using FirstDemo.Blazor.WebAssembly.Services;
 using FirstDemo.Blazor.UI;
 using FirstDemo.BLazor.Server.Services;
 using FirstLibrary.Core.Conferenze;
+using FirstLibrary.Core.Mappe;
+using FirstDemo.Blazor.UI.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -15,7 +17,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddScoped<ICategorie, ServizioWebCategorie>();
 builder.Services.AddScoped<IConferenze, GestoreConferenze>();
 builder.Services.AddScoped<ITrasformazioneTesto, UppercaseTransformation>();
-
+builder.Services.AddScoped<IDatiMappa, GestioneMappe>();
 
 
 await builder.Build().RunAsync();
