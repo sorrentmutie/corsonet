@@ -3,8 +3,8 @@
 @using FirstDemo.Blazor.UI.DataServices
 @using FirstLibrary.Core.Northwind
 
-@inject IDataServices<ProdottoListitem, ProdottoDetails, int> servizioDati
-
+@* @inject IDataServices<ProdottoListitem, ProdottoDetails, int> servizioDati
+ *@
 
 <PageTitle>Counter</PageTitle>
 
@@ -24,9 +24,9 @@
     
     protected override async Task OnInitializedAsync()
     {
-        var data = await servizioDati.GetAllAsync();
-        currentCount = data.TotalItems;
-
+        // var data = await servizioDati.GetAllAsync();
+        // currentCount = data.TotalItems;
+        currentCount = 1;
     }
 
 
