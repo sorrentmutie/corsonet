@@ -8,6 +8,12 @@
 <PageTitle>Index</PageTitle>
 
 <ListaEventi Eventi="eventiFuturi" Titolo="@titolo" OnEventoEliminato="EliminaEvento"/>
+<MyModal Id="myModal" Title="Conferma cancellazione evento" OnNo="No" OnSi="Si">
+    <Body>
+        <p>Sei sicuro di voler rimuovere l'evento?</p>
+    </Body>
+</MyModal>
+
 <button @onclick="() => CambiaTitolo()">Cambia Titolo</button>
 <p>@servizioConferenze.NumeroConteggi</p>
 <button class="btn btn-danger" @onclick="Saluta">Saluta Da JavaScript</button>
@@ -20,20 +26,53 @@
     private int somma = 0;
 
     private List<Evento>? eventiFuturi;
+    private Evento? eventoSelezionato;
+    private MyModalInterop? myModalInterop;
 
     protected override void OnInitialized()
     {
         eventiFuturi = servizioConferenze.EstraiEventiFuturi();
     }
 
-    private void EliminaEvento(Evento evento)
+    private async Task EliminaEvento(Evento evento)
     {
-        eventiFuturi?.Remove(evento);
+        // Bisogna far apparire la finestra Modale
+        eventoSelezionato = evento;
+        myModalInterop = new MyModalInterop(jsRuntime);
+        await myModalInterop.ApriModale("myModal");
+        // await jsRuntime.InvokeVoidAsync("mostraModale", "myModal");
+        //eventiFuturi?.Remove(evento);
     }
 
     private void CambiaTitolo()
     {
         titolo += "!";  
+    }
+
+    private async Task Si()
+    {
+        if (eventoSelezionato is not null)
+        {
+            eventiFuturi?.Remove(eventoSelezionato);            
+        }
+
+        if (myModalInterop is not null)
+        {
+            await myModalInterop.ChiudiModale();
+        }
+
+      //  await jsRuntime.InvokeVoidAsync("chiudiModale");
+        eventoSelezionato = null;
+
+    }
+
+    private async Task No()
+    {
+        if (myModalInterop is not null)
+        {
+            await myModalInterop.ChiudiModale();
+        }
+        eventoSelezionato = null;
     }
 
     private async Task InvocaJavaScript()
