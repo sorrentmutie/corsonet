@@ -1,16 +1,51 @@
 ﻿@using FirstDemo.Blazor.UI.Interop
+@using FirstDemo.Blazor.UI.Models
 @inject IJSRuntime JSRuntime
-<div class="ct-chart"></div>
+@* <div class="ct-chart" id="myID"></div> *@
+
+<div class="ct-chart" @ref="element" style="background-color:@BgColor;height:@Height;width:@Width"></div>
+
 
 @code {
     ElementReference element;
 
     private MyChartInterop? myChartInterop;
-   
+
+    [Parameter]
+    public ChartType ChartType { get; set; }
+    [Parameter]
+    public ChartData? ChartData { get; set; }
+    [Parameter]
+    public ChartPieData? ChartPieData { get; set; }
+    [Parameter]
+    public string BgColor { get; set; } = "Grey";
+    [Parameter]
+    public string Height { get; set; } = "100%";
+    [Parameter]
+    public string Width { get; set; } = "100%";
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         myChartInterop = new MyChartInterop(JSRuntime);
-        await myChartInterop.ShowFirstChart();
+        //await myChartInterop.ShowFirstChart();
+        //await myChartInterop.ShowSecondChart("myID");
+
+
+        if (ChartPieData != null)
+        {
+            await myChartInterop.ShowPie(element, ChartPieData);
+        }
+
+        if (ChartData != null)
+        {
+
+            await myChartInterop.ShowThirdChart(element, ChartType, ChartData);
+        }
     }
+
+
+
+
+
 }
 

@@ -1,14 +1,57 @@
 ﻿@page "/nuovi-esperimenti"
 @using FirstDemo.Blazor.UI.Interop
-@inject IJSRuntime jsRuntime
+@using FirstDemo.Blazor.UI.Models
 
-<MyChart/>
+<div class="row" style="height:80vh">
+    <div class="col-md-8">
+        <MyChart ChartType="ChartType.Line" ChartData=linea BgColor="LightGrey" />
+    </div>
+    <div class="col-md-4">
+        <MyChart ChartType="ChartType.Bar" ChartData=barre BgColor="LightGreen" />
+    </div>
+</div>
+
+
+@* <MyChart ChartType="ChartType.Line" ChartData=linea BgColor="LightGrey" Height="100px" Width="50%"/> *@
+@* <MyChart ChartType="ChartType.Bar" ChartData=barre BgColor="LightGreen" Height="200px" Width="50%"/>
+ *@
+<MyChart ChartType="ChartType.Pie" ChartPieData=torta BgColor=@color Height="300px" Width="100%" />
+<button class="btn btn-success" @onclick="Aggiungi">Aggiungi</button>
 
 @code {
-    MyChartInterop? myChartInterop;
-    protected override async Task OnInitializedAsync()
+    ChartData linea = new ChartData
+        {
+            Labels = new List<string> { "Mon", "Tue", "Wed", "Thu", "Fri" },
+            Series = new List<List<int>> { new List<int> { 2, 4, 6, 8, 10 }, new List<int> { 3, 9, 16, 25, 3 } }
+
+        }
+    ;
+
+    ChartData barre = new ChartData
+        {
+            Labels = new List<string> { "Mon", "Tue", "Wed", "Thu", "Fri" },
+            Series = new List<List<int>> { new List<int> { 1, 3, 5, 7, 9 }, new List<int> { 14, 6, 5, 10, 2 } }
+
+        }
+    ;
+
+    ChartPieData torta = new ChartPieData
+        {
+            Labels = new List<string> { "Mon", "Tue", "Wed", "Thu", "Fri" },
+            Series = new List<int> { 14, 6, 5, 10, 2 }
+
+        }
+    ;
+
+    string color = "LightYellow";
+    
+
+    public void Aggiungi()
     {
-        myChartInterop = new MyChartInterop(jsRuntime);
-        await myChartInterop.ShowFirstChart();
+        linea.Series.Add(new List<int> { 4, 7, 2, 99, 2 });
+        barre.Series.Add(new List<int> { 17, 3, 45, 2, 34 });
+        color = "Teal";
+
     }
+
 }
