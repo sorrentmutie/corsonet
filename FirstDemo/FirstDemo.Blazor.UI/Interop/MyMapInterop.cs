@@ -13,6 +13,8 @@ public class MyMapInterop : IAsyncDisposable
 
     public MyMapInterop(IJSRuntime jsRuntime)
     {
+
+
         moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
             "import", "./_content/FirstDemo.Blazor.UI/MyMapInterop.js").AsTask());
     }

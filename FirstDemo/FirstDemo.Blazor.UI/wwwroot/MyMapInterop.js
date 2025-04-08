@@ -1,4 +1,4 @@
-﻿var maps=[];
+﻿var maps = [];
 
 export function MostraMappa(id, lat, lng, zoom) {
     console.log(id);
@@ -20,3 +20,4 @@ export function AggiornaCoordinate(id, lat, lng, zoom) {
     if (map)
         map.setView([lat, lng], zoom);
 }
+

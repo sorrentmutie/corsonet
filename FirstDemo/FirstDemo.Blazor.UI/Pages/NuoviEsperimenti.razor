@@ -1,0 +1,14 @@
+﻿@page "/nuovi-esperimenti"
+@using FirstDemo.Blazor.UI.Interop
+@inject IJSRuntime jsRuntime
+
+<MyChart/>
+
+@code {
+    MyChartInterop? myChartInterop;
+    protected override async Task OnInitializedAsync()
+    {
+        myChartInterop = new MyChartInterop(jsRuntime);
+        await myChartInterop.ShowFirstChart();
+    }
+}
