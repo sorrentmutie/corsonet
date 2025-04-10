@@ -12,6 +12,7 @@ using FirstLibrary.Core.Common;
 using FirstDemo.Data;
 using FirstDemo.Blazor.UI.Services;
 using FirstLibrary.Core.Mappe;
+using FirstDemo.Blazor.UI.Pages;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,12 +34,23 @@ builder.Services.AddScoped
     <IDataServices<ProdottoListitem, ProdottoDetails, int>, 
      ProdottoDataService<ProdottoListitem, ProdottoDetails>>();
 
+builder.Services.AddScoped
+    <IDataServices<CustomerListItem, CustomerDetail, string>,
+     CustomersDataService<CustomerListItem, CustomerDetail>>();
+
 // builder.Services.AddTransient<IConferenze, GestoreConferenze>();
 //builder.Services.AddScoped<IConferenze, GestoreConferenze>();
 // builder.Services.AddSingleton<IConferenze, GestoreConferenzeOracle>();
 
 builder.Services.AddScoped<IRepository<Product, int>, 
     EFRepository<Product, int>>();
+builder.Services.AddScoped<IRepository<Customer, string>,
+    EFRepository<Customer, string>>();
+builder.Services.AddScoped<IRepository<Order, int>,
+    EFRepository<Order, int>>();
+builder.Services.AddScoped<IRepository<OrderDetail, int>,
+    EFRepository<OrderDetail, int>>();
+
 builder.Services.AddScoped<DbContext, NorthwindContext>();
 builder.Services.AddScoped<IDatiMappa, GestioneMappe>();
 

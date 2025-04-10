@@ -1,0 +1,52 @@
+﻿@page "/customers/{id}"
+@using FirstDemo.Blazor.UI.DataServices
+@inject IDataServices<CustomerListItem, CustomerDetail, string> ServizioClienti
+@inject NavigationManager navigazione
+
+@if(cliente is not null){
+    <h3>Cliente @Id</h3>
+
+    <p>@cliente.RagioneSociale</p>
+    <p>@cliente.TotOrdini</p>
+    <QuickGrid Items="@cliente.Ordini.AsQueryable()" Class="table table-bordered table-striped table-hover" Pagination="pagination">
+        <PropertyColumn Title="Id" Property="@(x=>x.Id)"></PropertyColumn>
+        <PropertyColumn Title="Data ordine" Property="@(x=>x.OrderDate)" Sortable="true"></PropertyColumn>
+        <PropertyColumn Title="Indirizzo" Property="@(x=>x.ShipName)" Sortable="true"></PropertyColumn>
+
+        <TemplateColumn Context="ordine">
+            <button class="btn btn-success" @onclick="()=>Dettaglio(ordine)">Vai a dettaglio</button>
+
+        </TemplateColumn>
+
+    </QuickGrid>
+
+    <Paginator State="pagination" />
+}else
+{
+    <h3>Cliente Non Trovato</h3>
+}
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+    CustomerDetail? cliente;
+    PaginationState pagination = new PaginationState { ItemsPerPage = 10 };
+    // protected override async Task OnInitializedAsync()
+    // {
+        
+    // }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        cliente = (await ServizioClienti.GetAsync(Id));
+    }
+
+    private void Dettaglio(OrderListItem ordine)
+    {
+        navigazione.NavigateTo($"/orders/{ordine.Id}");
+    }
+
+
+
+
+}

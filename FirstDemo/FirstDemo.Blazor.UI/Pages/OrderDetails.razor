@@ -1,0 +1,14 @@
+﻿@page "/orders/{id}"
+@using FirstLibrary.Core.Common
+
+@inject IRepository<OrderDetail, int> repo;
+
+
+<h3>OrderDetails @Id</h3>
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+
+}
