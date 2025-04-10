@@ -1,7 +1,23 @@
 ﻿@using FirstLibrary.Core.Conferenze
 <h3>@Titolo</h3>
 
-<table class="table table-striped table-bordered table-hover">
+@if(Eventi is not null)
+{
+<QuickGrid Items="@(Eventi.AsQueryable())" Class="table table-striped table-hover table-bordered"
+   Pagination="@pagination">
+        <PropertyColumn Title="Nome" Property="@(e => e.Nome)" Sortable="true" />
+        <PropertyColumn Title="Luogo" Property="@(e => e.Luogo)" Sortable="true" />
+        <PropertyColumn Title="Data di inizio" Property="@(e => e.DataInizio)" Sortable="true" />
+        <TemplateColumn Context="evento">
+            <button class="btn btn-danger" @onclick="() => OnEventoEliminato.InvokeAsync(evento)">Elimina</button>
+        </TemplateColumn>
+</QuickGrid>
+<Paginator State="pagination" />
+}
+
+
+
+@* <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
             <th>Nome</th>
@@ -33,8 +49,11 @@
         }
     </tbody>
 </table>
-
+ *@
 @code {
+
+    PaginationState pagination = new PaginationState { ItemsPerPage = 2 };
+
     [Parameter]
     public string Titolo { get; set; } = "Lista Eventi"; 
 
