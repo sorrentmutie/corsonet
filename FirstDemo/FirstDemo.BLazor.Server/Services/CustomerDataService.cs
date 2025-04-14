@@ -26,7 +26,8 @@ namespace FirstDemo.BLazor.Server.Services
             var entity = new Customer
             {
                 Id = details.Id,
-                CompanyName = details.RagioneSociale
+                CompanyName = details.RagioneSociale,
+                Address=details.Indirizzo
 
             };
             return repository.AddAsync(entity);
@@ -34,7 +35,11 @@ namespace FirstDemo.BLazor.Server.Services
 
         public async Task DeleteAsync(string id)
         {
+
             await repository.DeleteAsync(id);
+
+
+
         }
 
         public async Task<Page<CustomerListItem, string>> GetAllAsync()
@@ -71,6 +76,7 @@ namespace FirstDemo.BLazor.Server.Services
             {
                 Id = x.Id,
                 RagioneSociale = x.CompanyName,
+                Indirizzo = x.Address,
                 TotOrdini = elencoOrdini.Count(),
                 Ordini = elencoOrdini.Select(o => new OrderListItem()
                 { Id = o.Id, OrderDate = o.OrderDate, ShipName = o.ShipName }).ToList()
@@ -79,12 +85,25 @@ namespace FirstDemo.BLazor.Server.Services
 
         public async Task UpdateAsync(CustomerDetail details)
         {
-            var entity = new Customer
+            //var entity = new Customer
+            //{
+            //    Id = details.Id,
+            //    CompanyName = details.RagioneSociale
+            //};
+            //await repository.UpdateAsync(entity);
+            if (details is null || details.Id == null)
             {
-                Id = details.Id,
-                CompanyName = details.RagioneSociale
-            };
-            await repository.UpdateAsync(entity);
+                return;
+            }
+
+            var customerDB = await repository.GetByIdAsync(details.Id);
+            if (customerDB is not null)
+            {
+                customerDB.CompanyName = details.RagioneSociale;
+                customerDB.Address = details.Indirizzo;
+                await repository.UpdateAsync(customerDB);
+            }
+
         }
     }
 }

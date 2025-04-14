@@ -46,6 +46,11 @@ public class EFRepository<TEntity, TKey>
         return entity;
     }
 
+    public async Task SaveChangesAsync()
+    {
+        await dbContext.SaveChangesAsync();
+    }
+
     public async Task UpdateAsync(TEntity entity)
     {
         dbSet.Update(entity);

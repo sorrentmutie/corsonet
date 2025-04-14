@@ -8,4 +8,6 @@ public interface IRepository<TEntity, TKey>
     Task AddAsync(TEntity entity);
     Task UpdateAsync(TEntity entity);
     Task DeleteAsync(TKey id);
+
+    Task SaveChangesAsync();
 }

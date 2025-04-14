@@ -1,26 +1,65 @@
 ﻿@page "/customers"
 @using FirstDemo.Blazor.UI.DataServices
+@using FirstDemo.Blazor.UI.Interop
 @inject IDataServices<CustomerListItem, CustomerDetail, string> ServizioClienti
 @inject NavigationManager navigazione
+@inject IJSRuntime jSRuntime
 
 
 @if (clienti is not null)
 {
-    <h3>Clienti</h3>
-    <QuickGrid Items="@clienti.AsQueryable()" Class="table table-bordered table-striped table-hover" Pagination="pagination">
-        <PropertyColumn Title="Id" Property="@(x=>x.Id)"></PropertyColumn>
-        <PropertyColumn Title="Rag.Soc." Property="@(x=>x.RagioneSociale)" Sortable="true"></PropertyColumn>
-        <PropertyColumn Title="Indirizzo" Property="@(x=>x.Indirizzo)" Sortable="true"></PropertyColumn>
-        <PropertyColumn Title="Città" Property="@(x=>x.Citta)" Sortable="true"></PropertyColumn>
-        <PropertyColumn Title="CAP" Property="@(x=>x.CAP)" Sortable="true"></PropertyColumn>
-        <TemplateColumn Context="cliente">
-            <button class="btn btn-success" @onclick="()=>Dettaglio(cliente)">Vai a dettaglio</button>
 
-        </TemplateColumn>
 
-    </QuickGrid>
+    <MyModal Id="modalCliente" OnSi="()=>Si()" OnNo="()=>No()" Title="@titoloModale">
+        <Body>
+            <p> Procediamo alla cancellazione del cliente @clienteSelezionato?.RagioneSociale</p>
+        </Body>
+    </MyModal>
 
-    <Paginator State="pagination" />
+    @if (dettaglio is null && clienteSelezionato is null)
+    {
+        <h3>Clienti</h3>
+
+        <button class="btn btn-success mb-3" @onclick="()=>Aggiungi()">Aggiungi Cliente</button>
+
+
+
+        <QuickGrid Items="@clienti.AsQueryable()" Class="table table-bordered table-striped table-hover" Pagination="pagination">
+            <PropertyColumn Title="Id" Property="@(x=>x.Id)"></PropertyColumn>
+            <PropertyColumn Title="Rag.Soc." Property="@(x=>x.RagioneSociale)" Sortable="true"></PropertyColumn>
+            <PropertyColumn Title="Indirizzo" Property="@(x=>x.Indirizzo)" Sortable="true"></PropertyColumn>
+            <PropertyColumn Title="Città" Property="@(x=>x.Citta)" Sortable="true"></PropertyColumn>
+            <PropertyColumn Title="CAP" Property="@(x=>x.CAP)" Sortable="true"></PropertyColumn>
+            <TemplateColumn Context="cliente">
+                <button class="btn btn-success" @onclick="()=>Dettaglio(cliente)">Vai a dettaglio</button>
+                <button class="btn btn-warning" @onclick="()=>Modifica(cliente)">Modifica</button>
+                <button class="btn btn-danger" @onclick="()=>Cancella(cliente)">Cancella</button>
+            </TemplateColumn>
+
+
+        </QuickGrid>
+
+        <Paginator State="pagination" />
+
+
+    }
+    else if (dettaglio is not null && clienteSelezionato is null)
+    {
+        <Dettaglio TItem="CustomerDetail" Item="dettaglio" OnSalva="Salva" OnAnnulla="Annulla">
+            <ChildContent>
+                <MyInputTextBox Id="id" Label="Id" @bind-Value="dettaglio.Id"></MyInputTextBox>
+                <MyInputTextBox Id="RagSoc" Label="Ragione Sociale" @bind-Value="dettaglio.RagioneSociale"></MyInputTextBox>
+                <MyInputTextBox Id="Indirizzo" Label="Indirizzo" @bind-Value="dettaglio.Indirizzo"></MyInputTextBox>
+            </ChildContent>
+        </Dettaglio>
+    }
+
+
+
+    <MySpinner Visualizza="@mostraSpinner" />
+
+
+    @messaggioErrore
 }
 else
 {
@@ -31,17 +70,146 @@ else
 @code {
 
     private List<CustomerListItem>? clienti;
+    private MyModalInterop? myModalInterop;
+    private CustomerListItem? clienteSelezionato;
+    private string titoloModale = string.Empty;
+    private string messaggioErrore = string.Empty;
+    CustomerDetail? dettaglio;
+    private bool mostraSpinner;
+
 
     PaginationState pagination = new PaginationState { ItemsPerPage = 10 };
 
     protected override async Task OnInitializedAsync()
     {
         clienti = (await ServizioClienti.GetAllAsync()).Items;
+        myModalInterop = new MyModalInterop(jSRuntime);
     }
 
     private void Dettaglio(CustomerListItem cliente)
     {
         navigazione.NavigateTo($"/customers/{cliente.Id}");
+    }
+
+    private void Modifica(CustomerListItem cliente)
+    {
+
+        dettaglio = new CustomerDetail
+            {
+                Id = cliente.Id,
+                RagioneSociale = cliente.RagioneSociale,
+                Indirizzo = cliente.Indirizzo
+            };
+    }
+
+
+    private async Task Cancella(CustomerListItem cliente)
+    {
+        clienteSelezionato = cliente;
+        titoloModale = "Vuoi cancellare il cliente " + cliente.RagioneSociale;
+
+
+        if (myModalInterop is not null)
+        {
+            await myModalInterop.ApriModale("modalCliente");
+        }
+    }
+
+    private async Task Si()
+    {
+        mostraSpinner = true;
+
+        if (myModalInterop is not null)
+        {
+            await myModalInterop.ChiudiModale();
+        }
+
+        if (clienteSelezionato is not null)
+        {
+            try
+            {
+
+                await ServizioClienti.DeleteAsync(clienteSelezionato.Id!);
+
+                clienteSelezionato = null;
+
+                await Task.Delay(2000);
+            }
+            catch (Exception ex)
+            {
+
+                messaggioErrore = ex.InnerException!.Message;
+            }
+
+        }
+        mostraSpinner = false;
+
+
+
+        mostraSpinner = true;
+
+        clienti = (await ServizioClienti.GetAllAsync()).Items;
+
+        mostraSpinner = false;
+    }
+
+    private async Task No()
+    {
+        mostraSpinner = true;
+
+        if (myModalInterop is not null)
+        {
+            await myModalInterop.ChiudiModale();
+
+            await Task.Delay(2000);
+        }
+
+        clienteSelezionato = null;
+
+
+
+
+        clienti = (await ServizioClienti.GetAllAsync()).Items;
+
+        mostraSpinner = false;
+    }
+
+    private void Annulla()
+    {
+        dettaglio = null;
+    }
+
+    private async Task Salva(CustomerDetail clienteModificato)
+    {
+
+        dettaglio = clienteModificato;
+
+        mostraSpinner = true;
+        await Task.Delay(2000);
+        var dettaglioTrovato = await ServizioClienti.GetAsync(dettaglio.Id!);
+
+        if (dettaglioTrovato?.Id is not null)
+        {
+            await ServizioClienti.UpdateAsync(dettaglio);
+        }
+        else
+        {
+
+            await ServizioClienti.CreateAsync(dettaglio);
+        }
+
+        clienti = (await ServizioClienti.GetAllAsync()).Items;
+
+        dettaglioTrovato = null;
+        dettaglio = null;
+
+        mostraSpinner = false;
+    }
+
+    private void Aggiungi()
+    {
+        dettaglio = new CustomerDetail();
+
     }
 
 }
