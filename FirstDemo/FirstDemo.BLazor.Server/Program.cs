@@ -48,8 +48,6 @@ builder.Services.AddScoped<IRepository<Customer, string>,
     EFRepository<Customer, string>>();
 builder.Services.AddScoped<IRepository<Order, int>,
     EFRepository<Order, int>>();
-builder.Services.AddScoped<IRepository<OrderDetail, int>,
-    EFRepository<OrderDetail, int>>();
 
 builder.Services.AddScoped<DbContext, NorthwindContext>();
 builder.Services.AddScoped<IDatiMappa, GestioneMappe>();
