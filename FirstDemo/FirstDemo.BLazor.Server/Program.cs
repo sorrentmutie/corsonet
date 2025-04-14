@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using FirstDemo.BLazor.Server.Data;
 using FirstLibrary.Core.Conferenze;
 using FirstDemo.BLazor.Server.Services;
 using FirstDemo.Data.Models;
@@ -12,11 +9,8 @@ using FirstLibrary.Core.Common;
 using FirstDemo.Data;
 using FirstDemo.Blazor.UI.Services;
 using FirstLibrary.Core.Mappe;
-using FirstDemo.Blazor.UI.Pages;
 
 var builder = WebApplication.CreateBuilder(args);
-
-
 
 // Add services to the container.
 builder.Services.AddRazorPages();
