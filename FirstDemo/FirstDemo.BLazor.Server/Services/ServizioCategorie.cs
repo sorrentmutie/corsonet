@@ -1,8 +1,4 @@
-﻿using FirstDemo.Data.Models;
-using FirstLibrary.Core.Northwind;
-using Microsoft.EntityFrameworkCore;
-
-namespace FirstDemo.BLazor.Server.Services;
+﻿namespace FirstDemo.BLazor.Server.Services;
 
 public class ServizioCategorie : ICategorie
 {

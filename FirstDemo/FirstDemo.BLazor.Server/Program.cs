@@ -1,46 +1,13 @@
-using FirstLibrary.Core.Conferenze;
-using FirstDemo.BLazor.Server.Services;
-using FirstDemo.Data.Models;
-using Microsoft.EntityFrameworkCore;
-using FirstLibrary.Core.Northwind;
-using FirstDemo.BLazor.UI.Services;
-using FirstDemo.Blazor.UI.DataServices;
-using FirstLibrary.Core.Common;
-using FirstDemo.Data;
-using FirstDemo.Blazor.UI.Services;
-using FirstLibrary.Core.Mappe;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
-builder.Services.AddScoped<IConferenze, GestoreConferenze>();
-builder.Services.AddScoped<ITrasformazioneTesto, UppercaseTransformation>();
-builder.Services.AddDbContext<NorthwindContext>(opzioni =>
-{
-    opzioni.UseSqlServer(builder.Configuration.GetConnectionString("NorthwindConnection"));
-});
-builder.Services.AddScoped<ICategorie, ServizioCategorie>();
 
-builder.Services.AddScoped
-    <IDataServices<ProdottoListitem, ProdottoDetails, int>, 
-     ProdottoDataService<ProdottoListitem, ProdottoDetails>>();
-
-builder.Services.AddScoped
-    <IDataServices<CustomerListItem, CustomerDetail, string>,
-     CustomersDataService<CustomerListItem, CustomerDetail>>();
-
-builder.Services.AddScoped<IRepository<Product, int>, 
-    EFRepository<Product, int>>();
-builder.Services.AddScoped<IRepository<Customer, string>,
-    EFRepository<Customer, string>>();
-builder.Services.AddScoped<IRepository<Order, int>,
-    EFRepository<Order, int>>();
-
-builder.Services.AddScoped<DbContext, NorthwindContext>();
-builder.Services.AddScoped<IDatiMappa, GestioneMappe>();
+builder.Services.AddDatabaseServices(builder.Configuration);
+builder.Services.AddBusinessServices();
 
 var app = builder.Build();
 
