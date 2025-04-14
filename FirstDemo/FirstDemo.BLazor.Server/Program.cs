@@ -38,10 +38,6 @@ builder.Services.AddScoped
     <IDataServices<CustomerListItem, CustomerDetail, string>,
      CustomersDataService<CustomerListItem, CustomerDetail>>();
 
-// builder.Services.AddTransient<IConferenze, GestoreConferenze>();
-//builder.Services.AddScoped<IConferenze, GestoreConferenze>();
-// builder.Services.AddSingleton<IConferenze, GestoreConferenzeOracle>();
-
 builder.Services.AddScoped<IRepository<Product, int>, 
     EFRepository<Product, int>>();
 builder.Services.AddScoped<IRepository<Customer, string>,

@@ -14,9 +14,8 @@ public class OrderDetailKey
     public int ProductId { get; set; }
 }
 
-public partial class OrderDetail : IEntity<int>
+public partial class OrderDetail 
 {
-    public int Id { get; set; } 
     public int OrderId { get; set; }
 
     public int ProductId { get; set; }
@@ -30,5 +29,4 @@ public partial class OrderDetail : IEntity<int>
     public virtual Order Order { get; set; }
 
     public virtual Product Product { get; set; }
-    //public OrderDetailKey Id { get ; set ; }
 }
