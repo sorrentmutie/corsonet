@@ -14,7 +14,7 @@ public class CustomerListItem : BaseListItem<string>
 
 public class CustomerDetail : BaseDetails<string>
 {
-    [Required(ErrorMessage = "Id non può essrre vuoto")]
+    [Required(ErrorMessage = "Id non può esserre vuoto")]
     [MaxLength(5)]
     public string? Id { get; set; }
     [Required(ErrorMessage = "La ragione sociale non può essere vuota")]

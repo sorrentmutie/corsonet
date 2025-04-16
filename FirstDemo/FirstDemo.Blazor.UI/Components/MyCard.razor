@@ -1,0 +1,19 @@
+﻿<div class="card text-white bg-@CssClass mb-3 me-2" style="max-width: 18rem;">
+    <div class="card-header">@Header</div>
+    <div class="card-body">
+        <h5 class="card-title">@Title</h5>
+        @Body
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Header { get; set; } = string.Empty;
+    [Parameter]
+    public string CssClass { get; set; } = string.Empty;
+    [Parameter]
+    public string Title { get; set; } = string.Empty;
+    [Parameter]
+    public RenderFragment? Body { get; set; }
+}
+
