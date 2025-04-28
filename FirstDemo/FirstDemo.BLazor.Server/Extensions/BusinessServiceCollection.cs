@@ -20,6 +20,9 @@ public static class BusinessServiceCollection
         services.AddScoped<IConferenze, GestoreConferenze>();
         services.AddScoped<ITrasformazioneTesto, UppercaseTransformation>();
 
+        services.AddScoped<IServizioDettagliOrdini, ServizioDettagliOrdini>();
+
+        services.AddScoped<IDashboardData, DashboardDataService>();
 
 
         return services;

@@ -1,9 +1,25 @@
 ﻿@page "/customers/{id}"
 @using FirstDemo.Blazor.UI.DataServices
+@using FirstDemo.Data.Models
+@using FirstLibrary.Core.Common
+@using Microsoft.Extensions.Caching.Memory
+@using FirstDemo.Blazor.UI.Interop
 @inject IDataServices<CustomerListItem, CustomerDetail, string> ServizioClienti
 @inject NavigationManager navigazione
+@inject IMemoryCache memoryCache
+@* @inject NorthwindContext northwindContext *@
+@inject IJSRuntime jsRuntime
+@inject IRepository<Order, int> repository
 
-@if(cliente is not null){
+@if (cliente is not null)
+{
+
+    <MyModal Id="modalOrdine" OnSi="()=>Si()" OnNo="()=>No()" Title="Cancella Ordine">
+        <Body>
+            <p> Procediamo alla cancellazione dell'ordine</p>
+        </Body>
+    </MyModal>
+
     <h3>Cliente @Id</h3>
 
     <p>@cliente.RagioneSociale</p>
@@ -15,13 +31,15 @@
 
         <TemplateColumn Context="ordine">
             <button class="btn btn-success" @onclick="()=>Dettaglio(ordine)">Vai a dettaglio</button>
+            <button class="btn btn-danger" @onclick="()=>Cancella(ordine)">Cancella</button>
 
         </TemplateColumn>
 
     </QuickGrid>
 
     <Paginator State="pagination" />
-}else
+}
+else
 {
     <h3>Cliente Non Trovato</h3>
 }
@@ -30,15 +48,24 @@
     [Parameter]
     public string Id { get; set; } = string.Empty;
     CustomerDetail? cliente;
+    OrderListItem? ordineSelezionato;
     PaginationState pagination = new PaginationState { ItemsPerPage = 10 };
-    // protected override async Task OnInitializedAsync()
-    // {
-        
-    // }
+    private MyModalInterop? myModalInterop;
+    protected override void OnInitialized()
+    {
+        myModalInterop = new MyModalInterop(jsRuntime);
+    }
 
     protected override async Task OnParametersSetAsync()
     {
-        cliente = (await ServizioClienti.GetAsync(Id));
+        if (!memoryCache.TryGetValue(Id, out cliente))
+        {
+            cliente = await ServizioClienti.GetAsync(Id);
+            await Task.Delay(2000);
+            var cacheEntryOptions = new MemoryCacheEntryOptions()
+                .SetSlidingExpiration(TimeSpan.FromHours(1));
+            memoryCache.Set(Id, cliente, cacheEntryOptions);
+        }
     }
 
     private void Dettaglio(OrderListItem ordine)
@@ -46,7 +73,55 @@
         navigazione.NavigateTo($"/orders/{ordine.Id}");
     }
 
+    private async Task Cancella(OrderListItem ordine)
+    {
+        ordineSelezionato = ordine;
+        if (myModalInterop is not null)
+        {
+            await myModalInterop.ApriModale("modalOrdine");
+        }
+    }
 
+    private async Task Si()
+    {
+        if (myModalInterop is not null)
+        {
+            await myModalInterop.ChiudiModale();
+        }
 
+        if (ordineSelezionato is not null)
+        {
+            try
+            {
+                await repository.DeleteAsync(ordineSelezionato.Id);
+                //northwindContext.Orders.Remove(new Order() { Id = ordineSelezionato.Id });
+                //await northwindContext.SaveChangesAsync();
 
+                ordineSelezionato = null;
+
+                memoryCache.Remove(Id);
+                cliente = await ServizioClienti.GetAsync(Id);
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                        .SetSlidingExpiration(TimeSpan.FromHours(1));
+                memoryCache.Set(Id, cliente, cacheEntryOptions);
+            }
+            catch (Exception ex)
+            {
+
+                // messaggioErrore = ex.InnerException!.Message;
+            }
+        }
+    }
+
+    private async Task No()
+    {
+        if (myModalInterop is not null)
+        {
+            await myModalInterop.ChiudiModale();
+        }
+
+        ordineSelezionato = null;
+
+        //cliente = await ServizioClienti.GetAsync(Id);
+    }
 }

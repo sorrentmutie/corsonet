@@ -1,5 +1,7 @@
 
 
+using Microsoft.Extensions.Caching.Memory;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -8,6 +10,8 @@ builder.Services.AddServerSideBlazor();
 
 builder.Services.AddDatabaseServices(builder.Configuration);
 builder.Services.AddBusinessServices();
+
+builder.Services.AddMemoryCache();
 
 var app = builder.Build();
 
