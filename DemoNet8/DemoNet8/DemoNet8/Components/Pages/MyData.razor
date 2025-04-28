@@ -1,0 +1,36 @@
+﻿@page "/mydata"
+@* @attribute [StreamRendering] *@
+@rendermode InteractiveServer
+@inject IData dataService
+
+<h3>MyData</h3>
+<h3>@data</h3>
+<h5>@count</h5>
+<button class="btn btn-success" @onclick="() => Increase()">Click</button>
+
+
+@code {
+    string data = "Loading....";
+    int count = 0;
+
+    private void Increase()
+    {
+        count++;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        data = await dataService.GetDataAsync();
+        StateHasChanged();
+
+        // for (int i = 0; i < 10; i++)
+        // {
+        //     count++;
+        //     await Task.Delay(1000);
+        //     StateHasChanged();
+        // };
+
+
+
+    }
+}

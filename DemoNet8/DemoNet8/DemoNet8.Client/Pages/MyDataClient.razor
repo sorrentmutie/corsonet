@@ -1,0 +1,14 @@
+﻿@page "/mydata-client"
+@using DemoNet8.Core.Interfaces
+@inject IData dataService
+<h3>MyData Client</h3>
+<h3>@data</h3>
+
+
+@code {
+    string data = "Loading....";
+    protected override async Task OnInitializedAsync()
+    {
+        data = await dataService.GetDataAsync();
+    }
+}
