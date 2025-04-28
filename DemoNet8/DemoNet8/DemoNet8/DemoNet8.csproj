@@ -7,6 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\FirstDemo\FirstDemo.Blazor.UI\FirstDemo.Blazor.UI.csproj" />
+    <ProjectReference Include="..\..\..\FirstDemo\FirstDemo.Data\FirstDemo.Data.csproj" />
+    <ProjectReference Include="..\..\..\FirstDemo\FirstLibrary.Core\FirstLibrary.Core.csproj" />
     <ProjectReference Include="..\..\DemoNet8.Core\DemoNet8.Core.csproj" />
     <ProjectReference Include="..\DemoNet8.Client\DemoNet8.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.4" />

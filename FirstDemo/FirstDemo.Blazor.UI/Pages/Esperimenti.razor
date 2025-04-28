@@ -2,12 +2,13 @@
 @inject IJSRuntime JSRuntime
 @inject IDatiMappa DatiMappa
 @using FirstLibrary.Core.Mappe;
+@rendermode InteractiveServer
 
 <h3> Esperimenti</h3>
 
 <Component1 />
-<button class="btn btn-success" @onclick="Carica">OK</button>
-@foreach (var item in ParametriMappe)
+<button class="btn btn-success" @onclick="Carica">OK</button> 
+ @foreach (var item in ParametriMappe)
 {
     <MyMap Parametri="@item" />
     <br />
@@ -16,9 +17,9 @@
 @code {
     private List<ParametriMappa> ParametriMappe = new();
     private async Task Carica()
-    {
-        //var interop = new ExampleJsInterop(JSRuntime);
-        //await interop.Prompt("Salvatore");
+     {
+        var interop = new ExampleJsInterop(JSRuntime);
+        await interop.Prompt("Salvatore");
     }
     protected async override Task OnInitializedAsync()
     {

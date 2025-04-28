@@ -1,5 +1,8 @@
-﻿@page "/counter"
+﻿@page "/counter-client"
 @rendermode InteractiveAuto
+@inject IDatiMappa DatiMappa
+@using DemoNet8.Client.Components
+@using FirstLibrary.Core.Mappe;
 
 <PageTitle>Counter</PageTitle>
 
@@ -9,11 +12,23 @@
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
+ @foreach (var item in ParametriMappe)
+{
+    <MyMapClient Parametri="@item" />
+    <br />
+}
+
 @code {
     private int currentCount = 0;
+    private List<ParametriMappa> ParametriMappe = new();
 
     private void IncrementCount()
     {
         currentCount++;
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        ParametriMappe = await DatiMappa.GetParametriMappaAsync();
     }
 }

@@ -6,7 +6,7 @@ public class MyDataClientService : IData
 {
     public async Task<string> GetDataAsync()
     {
-        await Task.Delay(2000);
+        await Task.Delay(3000);
         return "Data from Client Service"; // Simulate a delay for data fetching
     }
 }

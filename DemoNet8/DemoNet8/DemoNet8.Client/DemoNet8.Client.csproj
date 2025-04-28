@@ -13,6 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\FirstDemo\FirstDemo.Blazor.UI\FirstDemo.Blazor.UI.csproj" />
+    <ProjectReference Include="..\..\..\FirstDemo\FirstLibrary.Core\FirstLibrary.Core.csproj" />
     <ProjectReference Include="..\..\DemoNet8.Core\DemoNet8.Core.csproj" />
   </ItemGroup>
 
