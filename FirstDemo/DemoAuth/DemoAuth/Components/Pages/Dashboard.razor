@@ -1,0 +1,61 @@
+﻿@page "/dashboard"
+@using DemoAuth.Data
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+@rendermode InteractiveServer
+@inject RoleManager<IdentityRole> RoleManager
+@inject UserManager<ApplicationUser> UserManager
+
+@attribute [Authorize(Roles="Admin")]
+<h3>Dashboard</h3>
+<button class="btn btn-success" @onclick="() => CreaRuolo()">Crea un ruolo</button>
+<button class="btn btn-success" @onclick="() => AssegnaRuoloAdUtente()">Assegna ruolo ad utente</button>
+<button class="btn btn-success" @onclick="() => AssegnaClaimAdUtente()">Assegna ruolo ad utente</button>
+
+
+
+
+@code {
+
+    private async Task AssegnaClaimAdUtente()
+    {
+        string mail = "salvatore.sorrentino@live.com";
+
+        var utente = await UserManager.FindByEmailAsync(mail);
+
+        if (utente is not null)
+        {
+            var claim = new Claim(
+                ClaimTypes.Country, "Italia");
+
+            await UserManager.AddClaimAsync(utente, claim);
+        }
+    }
+
+    private async Task AssegnaRuoloAdUtente()
+    {
+        string mail = "salvatore.sorrentino@live.com";
+        string ruolo = "Esempio";
+
+        var utente = await UserManager.FindByEmailAsync(mail);
+
+        if(utente is not null)
+        {
+            await UserManager.AddToRoleAsync(utente, ruolo);
+        }
+
+    }
+
+
+    private async Task CreaRuolo()
+    {
+        var ruolo = "Esempio";
+        var esiste = await RoleManager.RoleExistsAsync(ruolo);
+        if(!esiste)
+        {
+            var role = new IdentityRole { Name = ruolo };
+            var result = await RoleManager.CreateAsync(role);    
+        }
+    }
+}

@@ -1,0 +1,49 @@
+﻿@page "/mypage"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles ="Admin")]
+
+
+<h3>MyPage</h3>
+
+<AuthorizeView>
+    <Authorized>
+        <h4>Ciao, @context.User?.Identity?.Name</h4>
+        <ul>
+            @foreach(var claim in context.User?.Claims!)
+            {
+                <li>@claim.Type : @claim.Value</li>
+            }
+        </ul>
+
+        @if (context.User?.Claims.Any(cla => cla.Type == "DataNascita") is not null)
+        {
+            
+            {
+                string? DataNascita = 
+                    context.User?.Claims?.FirstOrDefault(cla => cla.Type == "DataNascita")?.Value;
+                DateTime dateTime = DateTime.Parse(DataNascita!);
+                TimeSpan age = DateTime.Now - dateTime;
+                if (age.TotalDays > 0)
+                {
+                    int years = (int)(age.TotalDays / 365.25);
+                    <p>Hai @years anni</p>
+                }
+                else
+                {
+                    <p>Non hai ancora compiuto gli anni</p>
+                }
+            }
+        }
+
+
+    </Authorized>
+    <NotAuthorized>
+        <h4>Non sei autorizzato</h4>
+        <p>Non hai i permessi per accedere a questa pagina.</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+@code {
+
+}

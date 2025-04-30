@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoNet8", "..\DemoNet8\Dem
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoNet8.Client", "..\DemoNet8\DemoNet8\DemoNet8.Client\DemoNet8.Client.csproj", "{994426B5-D99F-A637-64C1-1CAE93142835}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoAuth", "DemoAuth\DemoAuth\DemoAuth.csproj", "{361AED95-D2D1-4996-B59D-D44967550F1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoAuth.Client", "DemoAuth\DemoAuth.Client\DemoAuth.Client.csproj", "{E30411FE-59CF-46F1-BD58-E2397FFD2CF4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +67,14 @@ Global
 		{994426B5-D99F-A637-64C1-1CAE93142835}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{994426B5-D99F-A637-64C1-1CAE93142835}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{994426B5-D99F-A637-64C1-1CAE93142835}.Release|Any CPU.Build.0 = Release|Any CPU
+		{361AED95-D2D1-4996-B59D-D44967550F1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{361AED95-D2D1-4996-B59D-D44967550F1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{361AED95-D2D1-4996-B59D-D44967550F1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{361AED95-D2D1-4996-B59D-D44967550F1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E30411FE-59CF-46F1-BD58-E2397FFD2CF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E30411FE-59CF-46F1-BD58-E2397FFD2CF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E30411FE-59CF-46F1-BD58-E2397FFD2CF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E30411FE-59CF-46F1-BD58-E2397FFD2CF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
