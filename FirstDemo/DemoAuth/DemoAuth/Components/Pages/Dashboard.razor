@@ -1,22 +1,108 @@
 ﻿@page "/dashboard"
 @using DemoAuth.Data
+@using FirstDemo.Blazor.UI.Interop
+@using FirstDemo.Blazor.UI.Models
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Identity
 @using System.Security.Claims
+@using FirstDemo.Blazor.UI
 @rendermode InteractiveServer
 @inject RoleManager<IdentityRole> RoleManager
 @inject UserManager<ApplicationUser> UserManager
+@inject IJSRuntime JSRuntime
 
-@attribute [Authorize(Roles="Admin")]
+@* @attribute [Authorize(Roles="Admin")] *@
 <h3>Dashboard</h3>
 <button class="btn btn-success" @onclick="() => CreaRuolo()">Crea un ruolo</button>
 <button class="btn btn-success" @onclick="() => AssegnaRuoloAdUtente()">Assegna ruolo ad utente</button>
 <button class="btn btn-success" @onclick="() => AssegnaClaimAdUtente()">Assegna ruolo ad utente</button>
 
+<MyModal Id="Ruolo" Title="Gestione ruolo">
+    <Body>
 
+        <Dettaglio Item="RuoloScelto" TItem="Ruolo" OnSalva="Salva"  OnAnnulla="Annulla">
+            <ChildContent>
+                <MyInputTextBox @bind-Value="RuoloScelto.Nome" Label="Nome" />  
+            </ChildContent>
+        </Dettaglio>
 
+    </Body> 
+
+</MyModal>
+
+<MyModal Id="UtenteRuolo" Title="Assegnazione ruolo a utente">
+    <Body>
+
+        <Dettaglio Item="ruoloUtente" TItem="RuoloUtente" OnSalva="SalvaRuoloUtente" OnAnnulla="AnnullaRuoloUtente">
+            <ChildContent>
+                <MyInputTextBox @bind-Value="ruoloUtente.Email" Label="Email utente" />
+                <MyInputTextBox @bind-Value="ruoloUtente.Ruolo" Label="Ruolo" />
+            </ChildContent>
+        </Dettaglio>
+
+    </Body>
+
+</MyModal>
+
+<p>@resultMessage</p>
 
 @code {
+    private MyModalInterop? myModalInterop;
+    Ruolo RuoloScelto=new();
+    RuoloUtente ruoloUtente = new();
+
+    string resultMessage = string.Empty;
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     await base.OnInitializedAsync();
+    //     myModalInterop = new MyModalInterop(JSRuntime); 
+    // }
+
+    private void Annulla()
+    {
+        RuoloScelto = new();
+        myModalInterop?.ChiudiModale();
+    }   
+
+    private void AnnullaRuoloUtente()
+    {
+       ruoloUtente = new();
+        myModalInterop?.ChiudiModale();
+    }
+
+    private async Task SalvaRuoloUtente(RuoloUtente ru)
+    {
+        var utente = await UserManager.FindByEmailAsync(ru.Email);
+
+        if (utente is not null)
+        {
+            await UserManager.AddToRoleAsync(utente, ru.Ruolo);
+        }
+            
+
+        ruoloUtente = new();
+        myModalInterop?.ChiudiModale();
+    }
+
+    private async Task Salva(Ruolo ruolo)
+    {
+        
+        var esiste = await RoleManager.RoleExistsAsync(ruolo.Nome);
+        if(!esiste)
+        {
+            var role = new IdentityRole { Name = ruolo.Nome };
+            var result = await RoleManager.CreateAsync(role);
+            resultMessage = result.Succeeded ? "Ruolo creato" : "Errore nella creazione del ruolo"; 
+        }
+        RuoloScelto = new();
+        myModalInterop?.ChiudiModale();
+    }
+
+    protected override void OnInitialized()
+    {
+
+        myModalInterop = new MyModalInterop(JSRuntime);
+    }
 
     private async Task AssegnaClaimAdUtente()
     {
@@ -33,29 +119,32 @@
         }
     }
 
-    private async Task AssegnaRuoloAdUtente()
+    private void AssegnaRuoloAdUtente()
     {
-        string mail = "salvatore.sorrentino@live.com";
-        string ruolo = "Esempio";
+        // string mail = "salvatore.sorrentino@live.com";
+        // string ruolo = "Esempio";
 
-        var utente = await UserManager.FindByEmailAsync(mail);
+        // var utente = await UserManager.FindByEmailAsync(mail);
 
-        if(utente is not null)
-        {
-            await UserManager.AddToRoleAsync(utente, ruolo);
-        }
+        // if(utente is not null)
+        // {
+        //     await UserManager.AddToRoleAsync(utente, ruolo);
+        // }
+        myModalInterop?.ApriModale("UtenteRuolo");
 
     }
 
 
-    private async Task CreaRuolo()
+    private void CreaRuolo()
     {
-        var ruolo = "Esempio";
-        var esiste = await RoleManager.RoleExistsAsync(ruolo);
-        if(!esiste)
-        {
-            var role = new IdentityRole { Name = ruolo };
-            var result = await RoleManager.CreateAsync(role);    
-        }
+        // var ruolo = "Esempio";
+        // var esiste = await RoleManager.RoleExistsAsync(ruolo);
+        // if(!esiste)
+        // {
+        //     var role = new IdentityRole { Name = ruolo };
+        //     var result = await RoleManager.CreateAsync(role);    
+        // }
+        int a = 2;
+        myModalInterop?.ApriModale("Ruolo");
     }
 }
