@@ -9,8 +9,16 @@
                 @Body
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => OnNo.InvokeAsync()">No</button>
-                <button type="button" class="btn btn-primary" @onclick="() => OnSi.InvokeAsync()">Si</button>
+                @if(ShowSiNo)
+                {
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="() => OnNo.InvokeAsync()">No</button>
+                    <button type="button" class="btn btn-primary" @onclick="() => OnSi.InvokeAsync()">Si</button>
+                }
+                @if(ShowOk)
+                {
+                    <button type="button" class="btn btn-primary" @onclick="() => OnOk.InvokeAsync()">Ok</button>
+                }
+
             </div>
         </div>
     </div>
@@ -22,4 +30,7 @@
     [Parameter] public RenderFragment? Body { get; set; }
     [Parameter] public EventCallback OnSi { get; set; }
     [Parameter] public EventCallback OnNo { get; set; }
+    [Parameter] public EventCallback OnOk{ get; set; }
+    [Parameter] public bool ShowSiNo { get; set; } = false;
+    [Parameter] public bool ShowOk { get; set; } = false;
 }

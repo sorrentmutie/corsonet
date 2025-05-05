@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\FirstDemo.Blazor.UI\Component.razor" Link="Component.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\FirstLibrary.Core\FirstLibrary.Core.csproj" />
   </ItemGroup>
 

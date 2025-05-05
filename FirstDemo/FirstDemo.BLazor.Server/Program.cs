@@ -13,6 +13,8 @@ builder.Services.AddBusinessServices();
 
 builder.Services.AddMemoryCache();
 
+builder.Services.AddScoped<HttpClient>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
