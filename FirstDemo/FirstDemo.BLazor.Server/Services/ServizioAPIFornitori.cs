@@ -23,7 +23,7 @@ public class ServizioAPIFornitori : IServizioAPIFornitori
         var address = $"/suppliers?FilterText={SearchText}&PageNumber={CurrentPageNumber}";
         cancellationTokenSource = new CancellationTokenSource();
 
-        await Task.Delay(30000);
+        await Task.Delay(3000);
         var response = await httpClient.GetAsync(address,
             HttpCompletionOption.ResponseHeadersRead,
              cancellationTokenSource.Token

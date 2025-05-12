@@ -23,7 +23,7 @@ builder.Services.AddHttpClient("NorthWindApi", client =>
         TimeSpan.FromSeconds(1),
         TimeSpan.FromSeconds(5),
         TimeSpan.FromSeconds(30)
-    });
+    })
 );
 
 var app = builder.Build();
