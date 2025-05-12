@@ -24,6 +24,7 @@ public static class BusinessServiceCollection
 
         services.AddScoped<IDashboardData, DashboardDataService>();
 
+        services.AddScoped<IServizioAPIFornitori, ServizioAPIFornitori>();
 
         return services;
     }

@@ -1,14 +1,19 @@
-﻿@using FirstLibrary.Core.Northwind
+﻿@using FirstDemo.BLazor.Server.Services
+@using FirstLibrary.Core.Northwind
 @using FirstLibrary.Core.DataTypes;
 @using System.Net.Http.Json
 @using Microsoft.Extensions.Configuration
 @using FirstDemo.Blazor.UI.Interop
-@inject HttpClient HttpClient
+@* @inject HttpClient HttpClient*@
 @inject IConfiguration Configuration
 @inject IJSRuntime JSRuntime
+@inject IServizioAPIFornitori servizioAPIFornitori
+
+
 
 <InputText @bind-Value="SearchText" placeholder="Filter text" />
 <button class="btn btn-primary" @onclick="() => Search()">Search</button>
+<button class="btn btn-danger" @onclick="() => Cancel()">Cancel</button>
 <MySpinner Visualizza="IsLoading" />
 
 <MyModal Id="mySearch" Title="Risultato ricerca" OnOk="Ok" ShowOk="true">
@@ -34,6 +39,13 @@
     private MyModalInterop? myModalInterop;
     private int CurrentPageNumber { get; set; } = 1;
 
+    private void Cancel()
+    {
+        servizioAPIFornitori.CancelRequest();
+        SearchText = "";
+        IsLoading = false;
+    }
+
     private async Task Search()
     {
         myModalInterop = new MyModalInterop(JSRuntime);
@@ -47,15 +59,10 @@
 
     private async Task EstraiDati()
     {
-        var response = await HttpClient.GetAsync($"{Configuration.GetValue<string>("ApiServer:NorthwindUrl")}/suppliers?FilterText={SearchText}&PageNumber={CurrentPageNumber}");
-        if (response.IsSuccessStatusCode)
-        {
-            if (response != null && response.Content != null)
-            {
-                var page = await response.Content.ReadFromJsonAsync<Page<Fornitore>>();
-                FornitoriList = page?.Items;
-            }
-        }
+        //var response = await HttpClient.GetAsync($"{Configuration.GetValue<string>("ApiServer:NorthwindUrl")}/suppliers?FilterText={SearchText}&PageNumber={CurrentPageNumber}");
+        
+        var page = await servizioAPIFornitori.GetFornitori(SearchText, CurrentPageNumber);
+        FornitoriList = page?.Items;        
     }
 
     private async Task Ok()

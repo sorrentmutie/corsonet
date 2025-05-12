@@ -1,6 +1,4 @@
-
-
-using Microsoft.Extensions.Caching.Memory;
+using Polly;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +11,20 @@ builder.Services.AddBusinessServices();
 
 builder.Services.AddMemoryCache();
 
-builder.Services.AddScoped<HttpClient>();
+//builder.Services.AddScoped<HttpClient>();
+
+builder.Services.AddHttpClient("NorthWindApi", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7199");
+})
+.AddTransientHttpErrorPolicy(b =>
+    b.WaitAndRetryAsync(new[]
+    {
+        TimeSpan.FromSeconds(1),
+        TimeSpan.FromSeconds(5),
+        TimeSpan.FromSeconds(30)
+    });
+);
 
 var app = builder.Build();
 

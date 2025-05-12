@@ -34,6 +34,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("Policy");
+
 var group = app.MapGroup("/categories");
 
 group.MapGet("/", CategorieEndpoints.EstraiTutti)
