@@ -1,11 +1,18 @@
 ﻿@page "/"
 @inject IConferenze servizioConferenze
 @inject IJSRuntime jsRuntime
+@inject IOptions<EsempioOpzioni> opzioni
 
 @using FirstDemo.Blazor.UI.Interop
 @using FirstLibrary.Core.Conferenze
+@using FirstLibrary.Core.Configurations
+@using Microsoft.Extensions.Options
 
 <PageTitle>Index</PageTitle>
+
+<p>@opzioni.Value.Opzione1</p>
+<p>@opzioni.Value.Opzione2</p>
+
 
 <ListaEventi Eventi="eventiFuturi" Titolo="@titolo" OnEventoEliminato="EliminaEvento"/>
 <button @onclick="() => CambiaTitolo()">Cambia Titolo</button>

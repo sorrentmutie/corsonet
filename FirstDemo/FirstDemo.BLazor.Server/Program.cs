@@ -1,3 +1,4 @@
+using FirstLibrary.Core.Configurations;
 using Polly;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
+builder.Services.Configure<EsempioOpzioni>(
+    builder.Configuration.GetSection("EsempioOpzioni"));
 
 builder.Services.AddDatabaseServices(builder.Configuration);
 builder.Services.AddBusinessServices();
