@@ -10,7 +10,7 @@ public static class SuppliersExtensions
 {
     public static Expression<Func<Supplier, bool>>? FilterSupplier(string filterText)
     {
-        return x => x.CompanyName.Contains(filterText) || x.Products.Any(p => p.ProductName.Contains(filterText));
+        return x => x.CompanyName.Contains(filterText);// || x.Products.Any(p => p.ProductName.Contains(filterText));
     }
 }
 

@@ -1,0 +1,41 @@
+﻿<button class="btn btn-primary" @onclick="() => GoToPage(1)">@("<<")</button>
+@foreach (int i in _pages)
+{
+
+    <button class="btn btn-primary" @onclick="() => GoToPage(i)">
+        @i
+    </button>
+
+}
+<button class="btn btn-primary" @onclick="() => GoToPage(TotalPages)">@(">>")</button>
+
+
+
+@code {
+    [Parameter]
+    public int TotalPages { get; set; }
+    [Parameter]
+    public int CurrentPage { get; set; }
+    [Parameter]
+    public EventCallback<int> OnPageChanged { get; set; }
+
+    private List<int> _pages = new List<int>();
+
+    protected override void OnParametersSet()
+    {
+        _pages.Clear(); 
+        for (int i = 1; i <= TotalPages; i++)
+        {
+            _pages.Add(i);
+        }
+    }
+
+    private void GoToPage(int page)
+    {
+        if (page < 1 || page > TotalPages)
+            return;
+        CurrentPage = page;
+        OnPageChanged.InvokeAsync(page);
+    }
+
+}
