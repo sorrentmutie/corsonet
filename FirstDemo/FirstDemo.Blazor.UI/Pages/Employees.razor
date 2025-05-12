@@ -1,0 +1,85 @@
+﻿@page "/employees"
+@using FirstDemo.Blazor.UI.Interop
+@using FirstLibrary.Core.Northwind
+@inject IServizioAPIImpiegati servizioAPIImpiegati
+@inject IJSRuntime JSRuntime
+
+<InputText @bind-Value="SearchText" placeholder="Filter text" />
+<button class="btn btn-primary" @onclick="() => Search()">Search</button>
+<button class="btn btn-danger" @onclick="() => Cancel()">Cancel</button>
+<MySpinner Visualizza="IsLoading" />
+
+
+<MyModal Id="mySearchImp" Title="Risultato ricerca" OnOk="Ok" ShowOk="true">
+    <Body>
+        @if (ImpiegatiList != null)
+        {
+            @foreach (Impiegato  impiegato in ImpiegatiList)
+            {
+                <p>@impiegato.Nome</p>
+            }
+        }
+        @*  <button class="btn btn-primary" @onclick=" async() => {CurrentPageNumber--;await EstraiDati();}">Prev Page</button>
+         <button class="btn btn-primary" @onclick=" async() => {CurrentPageNumber++;await EstraiDati();}">Next Page</button>*@
+        <MyPaginator TotalPages="@TotalPages" CurrentPage="@CurrentPageNumber" OnPageChanged="VaiAPag" />
+
+    </Body>
+</MyModal>
+
+
+
+@code {
+
+    private List<Impiegato>? ImpiegatiList { get; set; }
+    private string SearchText { get; set; } = string.Empty;
+    private bool IsLoading { get; set; } = false;
+    private MyModalInterop? myModalInterop;
+    private int CurrentPageNumber { get; set; } = 1;
+    private int TotalPages { get; set; } = 0;
+
+
+    private void Cancel()
+    {
+        servizioAPIImpiegati.CancelRequest();
+        SearchText = "";
+        IsLoading = false;
+    }
+
+    private async Task Search()
+    {
+        myModalInterop = new MyModalInterop(JSRuntime);
+        IsLoading = true;
+        ImpiegatiList = null;
+        await EstraiDati();
+        //SearchText = "";
+        IsLoading = false;
+        await myModalInterop.ApriModale("mySearchImp");
+    }
+
+    private async Task EstraiDati()
+    {
+        //var response = await HttpClient.GetAsync($"{Configuration.GetValue<string>("ApiServer:NorthwindUrl")}/suppliers?FilterText={SearchText}&PageNumber={CurrentPageNumber}");
+
+        var page = await servizioAPIImpiegati.GetImpiegati(SearchText, CurrentPageNumber);
+        ImpiegatiList = page?.Items;
+        TotalPages = page?.PageCount ?? 1;
+    }
+
+    private async Task VaiAPag(int pagNumber)
+    {
+        CurrentPageNumber = pagNumber;
+        var page = await servizioAPIImpiegati.GetImpiegati(SearchText, CurrentPageNumber);
+        ImpiegatiList = page?.Items;
+        TotalPages = page?.PageCount ?? 1;
+
+    }
+
+    private async Task Ok()
+    {
+        if (myModalInterop != null)
+        {
+            await myModalInterop.ChiudiModale();
+        }
+
+    }
+}

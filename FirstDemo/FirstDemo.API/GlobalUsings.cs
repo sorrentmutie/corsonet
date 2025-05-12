@@ -1,0 +1,9 @@
+﻿global using FirstDemo.API.Extensions;
+global using FirstDemo.Data.Models;
+global using FirstLibrary.Core.DataTypes;
+global using FirstLibrary.Core.Northwind;
+global using Microsoft.AspNetCore.Http.HttpResults;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.IdentityModel.Tokens;
+global using System.Linq.Expressions;

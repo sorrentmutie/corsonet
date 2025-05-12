@@ -12,6 +12,12 @@ public static class ProductsExtensions
     {
         return x => x.ProductName.Contains(filterText) || x.Supplier.CompanyName.Contains(filterText);
     }
+
+    public static void RegistrazioneProdotti(this WebApplication app)
+    {
+        var productGroup = app.MapGroup("/products");
+        productGroup.MapGet("/", ProdottiEndpoints.Estrai);
+    }
 }
 
 public static class ProdottiEndpoints
@@ -79,4 +85,7 @@ public static class ProdottiEndpoints
         };
         return Results.Ok(page);
     }
+
+
+
 }

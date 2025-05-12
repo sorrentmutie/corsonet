@@ -12,6 +12,13 @@ public static class SuppliersExtensions
     {
         return x => x.CompanyName.Contains(filterText);// || x.Products.Any(p => p.ProductName.Contains(filterText));
     }
+
+    public static void RegistrazioneSuppliers(this WebApplication app)
+    {
+        var suppliersGroup = app.MapGroup("/suppliers");
+        suppliersGroup.MapGet("/", SuppliersEndpoints.Estrai);
+    }
+
 }
 
 public static class SuppliersEndpoints
@@ -72,4 +79,7 @@ public static class SuppliersEndpoints
         };
         return Results.Ok(page);
     }
+
+
+
 }

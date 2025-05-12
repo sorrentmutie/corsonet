@@ -27,6 +27,23 @@ public static class CategoriesExtensions
             }).ToList()
         };
     }
+
+    public static void RegistrazioneCategorie(this WebApplication app)
+    {
+        var group = app.MapGroup("/categories");
+
+        group.MapGet("/", CategorieEndpoints.EstraiTutti)
+            .WithName("GetCategories")
+            .WithOpenApi();
+
+        group.MapGet("/{id}", CategorieEndpoints.EstraiPerId);
+        //group.MapGet("/search/{name}/page/{page}/results/{results}", CategorieEndpoints.EstraiPerNome);
+
+        group.MapPost("/", CategorieEndpoints.Crea);
+        group.MapDelete("/{id}", CategorieEndpoints.Cancella);
+        group.MapPut("/{id}", CategorieEndpoints.Modifica);
+
+    }
 }
 
 public static class CategorieEndpoints
@@ -131,6 +148,6 @@ public static class CategorieEndpoints
         return Results.NoContent();
     }
 
-
+   
 
 }

@@ -10,6 +10,9 @@ builder.Services.AddServerSideBlazor();
 builder.Services.Configure<EsempioOpzioni>(
     builder.Configuration.GetSection("EsempioOpzioni"));
 
+builder.Services.Configure<EndpointsNorthwindAPI>(
+    builder.Configuration.GetSection("EndpointsNorthwindAPI"));
+
 builder.Services.AddDatabaseServices(builder.Configuration);
 builder.Services.AddBusinessServices();
 
