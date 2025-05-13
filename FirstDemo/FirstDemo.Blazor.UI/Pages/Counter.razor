@@ -14,32 +14,22 @@
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
-<Component1/>
+<Component1 />
 
 
 
 @code {
     private int currentCount = 0;
-    private List<Categoria>? categorie;
     
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        // var data = await servizioDati.GetAllAsync();
-        // currentCount = data.TotalItems;
+
         currentCount = 1;
     }
-
 
     private void IncrementCount()
     {
         currentCount++;
-        // var nuovaCategoria = new Categoria
-        //     {
-        //         Nome = "Cat300",
-        //         Descrizione = "Descrizione nuovissima categoria"
-        //     };
-        // await categorieService.CreateCategoria(nuovaCategoria);
-
     }
 }
 

@@ -5,21 +5,21 @@
 @inject ICategorie categorieService
 @rendermode InteractiveServer
 
-@if(categorie is not null)
+@if (categorie is not null)
 {
     <ListaCategorie Categorie="@categorie" OnCreaCategoria="CreaCategoria"
-    OnModifica="Modifica" OnCancella="Cancella"/>
+                    OnModifica="Modifica" OnCancella="Cancella" />
 }
 
-@if(categoria is not null)
+@if (categoria is not null)
 {
     <Dettaglio TItem="Categoria" Item="@categoria" OnAnnulla="Annulla" OnSalva="Salva">
         <ChildContent>
             <MyInputTextBox Id="Nome" Label="Nome"
-                @bind-Value="categoria.Nome"/>
+                            @bind-Value="categoria.Nome" />
 
             <MyInputTextBox Id="Descrizione" Label="Descrizione"
-                @bind-Value="categoria.Descrizione" />
+                            @bind-Value="categoria.Descrizione" />
         </ChildContent>
     </Dettaglio>
 }
@@ -39,13 +39,19 @@
     {
         await categorieService.DeleteCategoria(c.CategoryId);
         categoria = null;
-        categorie = (await categorieService.GetCategorie()).ToList();
+        var x = await categorieService.GetCategorie();
+
+        if (x != null)
+        {
+            categorie = x.ToList();
+        }
+
     }
 
     protected override async Task OnInitializedAsync()
     {
         var y = (await categorieService.GetCategorie());
-        if(y is not null)
+        if (y is not null)
         {
             categorie = y.ToList();
         }
@@ -57,34 +63,47 @@
         //     .OrderBy(x => x.Nome)
         //     .Skip(5).Take(10)
         //     .ToListAsync();
-        // } 
+        // }
 
 
     }
 
     private void CreaCategoria()
     {
-        categoria = new Categoria() {  Nome = ""};
+        categoria = new Categoria() { Nome = "" };
         categorie = null;
     }
 
     private async Task Salva(Categoria c)
     {
-        if(c.CategoryId == 0)
+        if (c.CategoryId == 0)
         {
             await categorieService.CreateCategoria(c);
-        } else
+        }
+        else
         {
             await categorieService.UpdateCategoria(c);
         }
-        categorie = (await categorieService.GetCategorie()).ToList();
+
+        var x = await categorieService.GetCategorie();
+       
+        if (x != null)
+        {
+            categorie = x.ToList();
+        }
         categoria = null;
     }
 
     private async Task Annulla()
     {
         categoria = null;
-        categorie = (await categorieService.GetCategorie()).ToList();
+        
+        var x = await categorieService.GetCategorie();
+
+        if (x != null)
+        {
+            categorie = x.ToList();
+        }
     }
 
 }

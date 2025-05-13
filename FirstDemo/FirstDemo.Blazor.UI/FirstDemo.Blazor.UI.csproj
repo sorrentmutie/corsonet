@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FirstDemo.Data\FirstDemo.Data.csproj" />
+    <ProjectReference Include="..\FirstDemo.UI.Kit\FirstDemo.UI.Kit.csproj" />
     <ProjectReference Include="..\FirstLibrary.Core\FirstLibrary.Core.csproj" />
   </ItemGroup>
 

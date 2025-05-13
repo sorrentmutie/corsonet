@@ -87,7 +87,7 @@ public static class CategorieEndpoints
     public static async Task<IResult> Crea(NorthwindContext db, Categoria categoria)
     {
         if(categoria is null) return Results.BadRequest("Categoria non valida");
-        if(categoria.Nome.Length > 15) 
+        if(categoria.Nome?.Length > 15) 
             return Results.BadRequest("Il nome non può superare i 15 caratteri");
 
         var category = new Category

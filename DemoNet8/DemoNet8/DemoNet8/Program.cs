@@ -2,12 +2,11 @@ using FirstDemo.Data.Models;
 using FirstDemo.Data;
 using FirstLibrary.Core.Common;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using FirstDemo.BLazor.Server.Services;
 using FirstDemo.Blazor.UI.DataServices;
 using FirstDemo.Blazor.UI.Services;
 using FirstLibrary.Core.Conferenze;
-using FirstLibrary.Core.Mappe;
+using FirstDemo.UI.Kit.Maps;
 using FirstLibrary.Core.Northwind;
 
 var builder = WebApplication.CreateBuilder(args);

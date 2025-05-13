@@ -1,5 +1,5 @@
 ﻿
-namespace FirstDemo.Blazor.UI.Models;
+namespace FirstDemo.UI.Kit.Charts;
 
 public class ChartData
 {

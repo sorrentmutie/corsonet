@@ -1,4 +1,4 @@
-﻿@using FirstLibrary.Core.Mappe
+﻿
 @inject IJSRuntime JSRuntime
 @if (Parametri is not null)
 {
@@ -9,20 +9,12 @@
 @code {
     [Parameter]
     public ParametriMappa? Parametri { get; set; }
-    // [Parameter]
-    // public string Id { get; set; } = "MyMappa";
-    // [Parameter]
-    // public float Latitudine { get; set; } = 0;
-    // [Parameter]
-    // public float Longitudine { get; set; } = 0;
-    // [Parameter]
-    // public int Zoom { get; set; } = 13;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (Parametri is not null)
         {
-            var interop = new Interop.MyMapInterop(JSRuntime);
+            var interop = new MyMapInterop(JSRuntime);
 
             if (firstRender)
             {

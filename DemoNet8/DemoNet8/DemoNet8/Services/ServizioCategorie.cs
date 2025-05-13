@@ -67,7 +67,7 @@ public class ServizioCategorie : ICategorie
         };
     }
 
-    public async Task<IEnumerable<Categoria>> GetCategorie()
+    public async Task<IEnumerable<Categoria>?> GetCategorie()
     {
         return await database.Categories
             .Select(c => new Categoria
