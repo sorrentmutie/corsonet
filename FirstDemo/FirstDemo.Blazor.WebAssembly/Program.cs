@@ -6,7 +6,7 @@ using FirstDemo.Blazor.WebAssembly.Services;
 using FirstDemo.Blazor.UI;
 using FirstDemo.BLazor.Server.Services;
 using FirstLibrary.Core.Conferenze;
-using FirstLibrary.Core.Mappe;
+using FirstDemo.UI.Kit.Maps;
 using FirstDemo.Blazor.UI.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);

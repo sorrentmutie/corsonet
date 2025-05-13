@@ -1,7 +1,6 @@
-﻿using FirstLibrary.Core.Mappe;
+﻿using FirstDemo.UI.Kit.Maps;
 
 namespace FirstDemo.Blazor.UI.Services;
-
 public class GestioneMappe : IDatiMappa
 {
 

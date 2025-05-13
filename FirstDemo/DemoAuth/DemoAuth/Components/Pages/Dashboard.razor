@@ -6,6 +6,7 @@
 @using Microsoft.AspNetCore.Identity
 @using System.Security.Claims
 @using FirstDemo.Blazor.UI
+@using FirstDemo.UI.Kit.Components
 @rendermode InteractiveServer
 @inject RoleManager<IdentityRole> RoleManager
 @inject UserManager<ApplicationUser> UserManager
@@ -121,30 +122,14 @@
 
     private void AssegnaRuoloAdUtente()
     {
-        // string mail = "salvatore.sorrentino@live.com";
-        // string ruolo = "Esempio";
-
-        // var utente = await UserManager.FindByEmailAsync(mail);
-
-        // if(utente is not null)
-        // {
-        //     await UserManager.AddToRoleAsync(utente, ruolo);
-        // }
+       
         myModalInterop?.ApriModale("UtenteRuolo");
 
     }
 
-
     private void CreaRuolo()
     {
-        // var ruolo = "Esempio";
-        // var esiste = await RoleManager.RoleExistsAsync(ruolo);
-        // if(!esiste)
-        // {
-        //     var role = new IdentityRole { Name = ruolo };
-        //     var result = await RoleManager.CreateAsync(role);    
-        // }
-        int a = 2;
+ 
         myModalInterop?.ApriModale("Ruolo");
     }
 }

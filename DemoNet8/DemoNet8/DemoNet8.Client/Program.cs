@@ -1,7 +1,7 @@
 using DemoNet8.Client.Services;
 using DemoNet8.Core.Interfaces;
 using FirstDemo.Blazor.UI.Services;
-using FirstLibrary.Core.Mappe;
+using FirstDemo.UI.Kit.Maps;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);

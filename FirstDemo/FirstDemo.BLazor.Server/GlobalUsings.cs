@@ -8,5 +8,5 @@ global using FirstDemo.Blazor.UI.DataServices;
 global using FirstLibrary.Core.Common;
 global using FirstDemo.Data;
 global using FirstDemo.Blazor.UI.Services;
-global using FirstLibrary.Core.Mappe;
+global using FirstDemo.UI.Kit.Maps;
 global using FirstDemo.BLazor.Server.Extensions;

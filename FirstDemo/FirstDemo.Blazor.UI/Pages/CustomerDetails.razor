@@ -91,25 +91,19 @@ else
 
         if (ordineSelezionato is not null)
         {
-            try
-            {
-                await repository.DeleteAsync(ordineSelezionato.Id);
-                //northwindContext.Orders.Remove(new Order() { Id = ordineSelezionato.Id });
-                //await northwindContext.SaveChangesAsync();
 
-                ordineSelezionato = null;
+            await repository.DeleteAsync(ordineSelezionato.Id);
 
-                memoryCache.Remove(Id);
-                cliente = await ServizioClienti.GetAsync(Id);
-                var cacheEntryOptions = new MemoryCacheEntryOptions()
-                        .SetSlidingExpiration(TimeSpan.FromHours(1));
-                memoryCache.Set(Id, cliente, cacheEntryOptions);
-            }
-            catch (Exception ex)
-            {
 
-                // messaggioErrore = ex.InnerException!.Message;
-            }
+            ordineSelezionato = null;
+
+            memoryCache.Remove(Id);
+            cliente = await ServizioClienti.GetAsync(Id);
+            var cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromHours(1));
+            memoryCache.Set(Id, cliente, cacheEntryOptions);
+
+
         }
     }
 

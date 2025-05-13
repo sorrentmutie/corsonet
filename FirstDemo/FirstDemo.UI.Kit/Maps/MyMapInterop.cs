@@ -1,12 +1,6 @@
 ﻿using Microsoft.JSInterop;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FirstDemo.Blazor.UI.Interop;
-
+namespace  FirstDemo.UI.Kit.Maps;
 public class MyMapInterop : IAsyncDisposable
 {
     private readonly Lazy<Task<IJSObjectReference>> moduleTask;
@@ -14,9 +8,8 @@ public class MyMapInterop : IAsyncDisposable
     public MyMapInterop(IJSRuntime jsRuntime)
     {
 
-
         moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
-            "import", "./_content/FirstDemo.Blazor.UI/MyMapInterop.js").AsTask());
+            "import", "./_content/FirstDemo.UI.Kit/MyMapInterop.js").AsTask());
     }
 
     public async ValueTask MostraMappa(string id, float latitudine, float longitudine, int zoom)

@@ -10,7 +10,7 @@ public enum SortDirection
 
 public class PageParameters 
 {
-    public string FilterText { get; set; }
+    public string FilterText { get; set; } = string.Empty;
     public int PageNumber { get; set; }
     public string? SortBy { get; set; }
     public SortDirection? SortDirection { get; set; }

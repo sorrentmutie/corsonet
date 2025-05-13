@@ -1,5 +1,6 @@
-﻿@using FirstLibrary.Core.Mappe
+﻿
 @using FirstDemo.Blazor.UI.Interop
+@using FirstDemo.UI.Kit.Maps
 @inject IJSRuntime JSRuntime
 @rendermode InteractiveWebAssembly
 
@@ -14,24 +15,11 @@
     [Parameter]
     public ParametriMappa? Parametri { get; set; }
    
-    // [Parameter]
-    // public string Id { get; set; } = "MyMappa";
-    // [Parameter]
-    // public float Latitudine { get; set; } = 0;
-    // [Parameter]
-    // public float Longitudine { get; set; } = 0;
-    // [Parameter]
-    // public int Zoom { get; set; } = 13;
-
-
-
-
-
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (Parametri is not null)
         {
-            var interop = new FirstDemo.Blazor.UI.Interop.MyMapInterop(JSRuntime);
+            var interop = new MyMapInterop(JSRuntime);
 
             if (firstRender)
             {

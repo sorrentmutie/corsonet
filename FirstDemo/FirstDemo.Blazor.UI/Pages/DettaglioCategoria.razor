@@ -9,7 +9,7 @@
     <h3>@categoria.Nome</h3>
     <p>@categoria.Descrizione</p>
 
-    @if(categoria.Prodotti is not null)
+    @if (categoria.Prodotti is not null)
     {
         @if (categoria.Prodotti.Count == 0)
         {
@@ -19,11 +19,12 @@
 
         @foreach (var prodotto in categoria.Prodotti)
         {
-            @if(prodotto.Giacenza < 5)
+            @if (prodotto.Giacenza < 5)
             {
-               <CardProdotto CssClass="bg-danger" Prodotto="prodotto"></CardProdotto>
+                <CardProdotto CssClass="bg-danger" Prodotto="prodotto"></CardProdotto>
 
-            } else
+            }
+            else
             {
                 <CardProdotto CssClass="bg-success" Prodotto="prodotto"></CardProdotto>
             }
@@ -40,12 +41,17 @@ else
 
 @code {
     [Parameter]
-    public string Id { get; set; }
+    public string? Id { get; set; }
 
     private Categoria? categoria;
 
     protected async override Task OnInitializedAsync()
     {
-       categoria =  await categorieService.GetCategoria(int.Parse(Id));
-    } 
+        if (Id != null)
+        {
+
+            categoria = await categorieService.GetCategoria(int.Parse(Id));
+
+        }
+    }
 }
