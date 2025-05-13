@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FirstLibrary.Core.Northwind;
-public class Fornitore
+﻿namespace FirstLibrary.Core.Northwind;
+public class Fornitore : ISearchResultType
 {
     public int Id { get; set; }
     public string Nome { get; set; } = null!;

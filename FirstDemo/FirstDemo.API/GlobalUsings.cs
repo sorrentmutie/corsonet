@@ -1,6 +1,6 @@
 ﻿global using FirstDemo.API.Extensions;
 global using FirstDemo.Data.Models;
-global using FirstLibrary.Core.DataTypes;
+global using FirstDemo.UI.Kit.DataTypes;
 global using FirstLibrary.Core.Northwind;
 global using Microsoft.AspNetCore.Http.HttpResults;
 global using Microsoft.AspNetCore.Mvc;

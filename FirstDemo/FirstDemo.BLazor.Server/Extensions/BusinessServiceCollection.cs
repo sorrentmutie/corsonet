@@ -1,4 +1,6 @@
-﻿namespace FirstDemo.BLazor.Server.Extensions;
+﻿using FirstDemo.UI.Kit.Interfaces;
+
+namespace FirstDemo.BLazor.Server.Extensions;
 
 public static class BusinessServiceCollection
 {
@@ -24,8 +26,8 @@ public static class BusinessServiceCollection
 
         services.AddScoped<IDashboardData, DashboardDataService>();
 
-        services.AddScoped<IServizioAPIFornitori, ServizioAPIFornitori>();
-        services.AddScoped<IServizioAPIImpiegati, ServizioAPIIMpiegati>();
+        services.AddScoped<IServizioAPIGenerico<Impiegato>, ServizioAPIGenerico<Impiegato>>();
+        services.AddScoped<IServizioAPIGenerico<Fornitore>, ServizioAPIGenerico<Fornitore>>();
 
         return services;
     }

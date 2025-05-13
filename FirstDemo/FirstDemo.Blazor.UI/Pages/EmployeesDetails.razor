@@ -1,0 +1,40 @@
+﻿@page "/employees/{Id}"
+@using FirstDemo.UI.Kit.Interfaces
+@using FirstLibrary.Core.Configurations
+@using FirstLibrary.Core.Northwind
+@using Microsoft.Extensions.Options
+@inject IServizioAPIGenerico<Impiegato> servizioAPIImpiegato
+@inject IOptions<EndpointsNorthwindAPI> EndpointsOptions
+
+@if (impiegato != null)
+{
+    <Dettaglio TItem="Impiegato" Item="@impiegato">
+
+        <ChildContent>
+            <p>@impiegato?.Id</p>
+            <MyInputTextBox Id="Nome" Label="Nome" @bind-Value="@impiegato.Nome" />
+            <MyInputTextBox Id="Cognome" Label="Cognome" @bind-Value="@impiegato.Cognome" />
+        </ChildContent>
+
+    </Dettaglio>
+}
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+    private Impiegato? impiegato;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id != null)
+        {
+            await EstraiDati();
+        }
+    }
+
+    private async Task EstraiDati()
+    {
+        impiegato = await servizioAPIImpiegato.GetById(EndpointsOptions.Value?.Impiegati!, Id);
+    }
+}

@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace FirstLibrary.Core.DataTypes;
+﻿namespace FirstDemo.UI.Kit.DataTypes;
 
 public enum SortDirection
 {

@@ -1,4 +1,4 @@
-﻿namespace FirstLibrary.Core.DataTypes;
+﻿namespace FirstDemo.UI.Kit.DataTypes;
 
 public class Page<ListItemType>
 {

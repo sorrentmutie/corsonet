@@ -9,7 +9,7 @@ public class MyModalInterop : IAsyncDisposable
     public MyModalInterop(IJSRuntime jsRuntime)
     {
         moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
-            "import", "./_content/FirstDemo.Blazor.UI/myModal.js").AsTask());
+            "import", "./_content/FirstDemo.UI.Kit/myModal.js").AsTask());
     }
 
     public async ValueTask ApriModale(string Id)

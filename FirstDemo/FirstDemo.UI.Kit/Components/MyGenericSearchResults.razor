@@ -1,0 +1,103 @@
+﻿@using FirstDemo.Blazor.UI.Interop
+@using FirstDemo.UI.Kit.Interfaces
+@using FirstLibrary.Core.Northwind
+@using Microsoft.AspNetCore.Components.QuickGrid
+@inject IJSRuntime JSRuntime
+@typeparam TItem where TItem : class, ISearchResultType, new()
+@inject IServizioAPIGenerico<TItem> servizioAPIGenerico
+@inject NavigationManager navigazione
+
+<InputText @bind-Value="SearchText" placeholder="Filter text" />
+<button class="btn btn-primary" @onclick="() => Search()">Search</button>
+<button class="btn btn-danger" @onclick="() => Cancel()">Cancel</button>
+<MySpinner Visualizza="IsLoading" />
+
+<MyModal Id="@ModalId" Title="Risultato ricerca" OnOk="Ok" ShowOk="true">
+    <Body>
+
+        @if (SearchResultList != null)
+        {
+            <QuickGrid Items="@SearchResultList.AsQueryable()" Class="table table-bordered table-striped table-hover">
+                <PropertyColumn Title="Id" Property="@(x=>x.Id)"></PropertyColumn>
+                <PropertyColumn Title="Nome" Property="@(x=>x.Nome)" Sortable="true"></PropertyColumn>
+
+                <TemplateColumn Context="dett">
+                    <button class="btn btn-success" @onclick="()=>Dettaglio(dett)">Vai a dettaglio</button>
+                </TemplateColumn>
+            </QuickGrid>
+            @* @foreach (TItem item in SearchResultList)
+            {
+                <p>@item.Nome</p>
+            } *@
+        }
+        <MyPaginator TotalPages="@TotalPages" CurrentPage="@CurrentPageNumber" OnPageChanged="VaiAPag" />
+    </Body>
+</MyModal>
+
+@code {
+    [Parameter]
+    public string ApiAddress { get; set; } = string.Empty;
+    private string SearchText { get; set; } = string.Empty;
+    private bool IsLoading { get; set; } = false;
+    private MyModalInterop? myModalInterop;
+    private int CurrentPageNumber { get; set; } = 1;
+    private int TotalPages { get; set; } = 0;
+    private List<TItem>? SearchResultList { get; set; }
+    [Parameter]
+    public string ModalId { get; set; } = string.Empty;
+    [Parameter]
+    public string DetailUrl { get; set; } = string.Empty;
+
+    private void Cancel()
+    {
+        servizioAPIGenerico.CancelRequest();
+        SearchText = "";
+        IsLoading = false;
+    }
+
+    private async Task Search()
+    {
+        myModalInterop = new MyModalInterop(JSRuntime);
+        IsLoading = true;
+        SearchResultList = null;
+        await EstraiDati();
+        IsLoading = false;
+        await myModalInterop.ApriModale(ModalId);
+    }
+
+    private async Task EstraiDati()
+    {
+        var page = await servizioAPIGenerico.Get(ApiAddress, SearchText, CurrentPageNumber);
+        SearchResultList = page?.Items;
+        TotalPages = page?.PageCount ?? 1;
+    }
+
+    private async Task Ok()
+    {
+        if (myModalInterop != null)
+        {
+            await myModalInterop.ChiudiModale();
+        }
+
+    }
+
+    private async Task VaiAPag(int pagNumber)
+    {
+        CurrentPageNumber = pagNumber;
+        var page = await servizioAPIGenerico.Get(ApiAddress, SearchText, CurrentPageNumber);
+        SearchResultList = page?.Items;
+        TotalPages = page?.PageCount ?? 1;
+    }
+
+    private async Task Dettaglio(TItem dett)
+    {
+        if (myModalInterop != null)
+        {
+            await myModalInterop.ChiudiModale();
+        }
+        if (DetailUrl != "")
+        {
+            navigazione.NavigateTo($"/{DetailUrl}/{dett.Id}");
+        }
+    }
+}

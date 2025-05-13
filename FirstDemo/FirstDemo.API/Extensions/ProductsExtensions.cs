@@ -1,5 +1,5 @@
 ﻿using FirstDemo.Data.Models;
-using FirstLibrary.Core.DataTypes;
+using FirstDemo.UI.Kit.DataTypes;
 using FirstLibrary.Core.Northwind;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;

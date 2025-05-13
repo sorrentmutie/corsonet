@@ -1,4 +1,4 @@
-﻿
+﻿using FirstDemo.UI.Kit.DataTypes;
 using System.Linq;
 
 namespace FirstDemo.API.Extensions
@@ -15,12 +15,32 @@ namespace FirstDemo.API.Extensions
         {
             var employeesGroup = app.MapGroup("/employees");
             employeesGroup.MapGet("/", EmployeesEndpoints.Estrai);
+            employeesGroup.MapGet("/{id}", EmployeesEndpoints.EstraiById);
         }
 
     }
 
     public static class EmployeesEndpoints
     {
+        public static async Task<IResult> EstraiById(int id, NorthwindContext db)
+        {
+            var employee = await db.Employees.FindAsync(id);
+            if (employee == null)
+            {
+                return Results.NotFound();
+            }
+            else
+            {
+                var i = new Impiegato()
+                {
+                    Id = employee.EmployeeId,
+                    Nome = employee.FirstName,
+                    Cognome = employee.LastName
+                };
+                return Results.Ok(i);
+
+            }
+        }
         public static async Task<IResult> Estrai([AsParameters] PageParameters pageParameters, NorthwindContext db, IConfiguration configuration)
         {
             int pageSize = 1;
@@ -56,7 +76,7 @@ namespace FirstDemo.API.Extensions
                         results = results.OrderByDescending(x => EF.Property<object>(x, pageParameters.SortBy));
                     }
                 }
-                
+
             }
             var page = new Page<Impiegato>
             {
