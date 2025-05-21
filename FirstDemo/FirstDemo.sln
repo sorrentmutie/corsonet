@@ -27,6 +27,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoAuth.Client", "DemoAuth
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirstDemo.UI.Kit", "FirstDemo.UI.Kit\FirstDemo.UI.Kit.csproj", "{8E3B647C-2C3D-4BD8-9C82-57D44487103F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceDefaults", "ServiceDefaults\ServiceDefaults.csproj", "{E86208DB-6AA0-44A6-9F1E-3E6382838FF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppHost", "AppHost\AppHost.csproj", "{2B958F36-36E4-4DF1-BD91-2321A0137D5A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +85,14 @@ Global
 		{8E3B647C-2C3D-4BD8-9C82-57D44487103F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E3B647C-2C3D-4BD8-9C82-57D44487103F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E3B647C-2C3D-4BD8-9C82-57D44487103F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E86208DB-6AA0-44A6-9F1E-3E6382838FF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E86208DB-6AA0-44A6-9F1E-3E6382838FF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E86208DB-6AA0-44A6-9F1E-3E6382838FF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E86208DB-6AA0-44A6-9F1E-3E6382838FF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B958F36-36E4-4DF1-BD91-2321A0137D5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B958F36-36E4-4DF1-BD91-2321A0137D5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B958F36-36E4-4DF1-BD91-2321A0137D5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B958F36-36E4-4DF1-BD91-2321A0137D5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

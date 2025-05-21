@@ -18,6 +18,7 @@
     <ProjectReference Include="..\FirstDemo.Blazor.UI\FirstDemo.Blazor.UI.csproj" />
     <ProjectReference Include="..\FirstDemo.Data\FirstDemo.Data.csproj" />
     <ProjectReference Include="..\FirstLibrary.Core\FirstLibrary.Core.csproj" />
+    <ProjectReference Include="..\ServiceDefaults\ServiceDefaults.csproj" />
   </ItemGroup>
 
   <ItemGroup>

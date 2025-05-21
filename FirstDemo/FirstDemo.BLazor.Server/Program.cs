@@ -3,6 +3,8 @@ using Polly;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
@@ -20,9 +22,14 @@ builder.Services.AddMemoryCache();
 
 //builder.Services.AddScoped<HttpClient>();
 
+
+//builder.Services.AddHttpClient<NwsManager>(
+//    static client => client.BaseAddress = new("https+http://api"));
+
+
 builder.Services.AddHttpClient("NorthWindApi", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7199");
+    client.BaseAddress = new("https+http://api");
 })
 .AddTransientHttpErrorPolicy(b =>
     b.WaitAndRetryAsync(new[]
@@ -34,6 +41,8 @@ builder.Services.AddHttpClient("NorthWindApi", client =>
 );
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
