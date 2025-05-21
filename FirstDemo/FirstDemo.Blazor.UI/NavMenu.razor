@@ -1,4 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Components.Routing
+@using State
+@rendermode InteractiveServer
+@inject AppState AppState
+
+
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">FirstDemo.BLazor.Server</a>
@@ -10,6 +15,18 @@
 
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link">
+                <span class="oi oi-list-rich" aria-hidden="true"></span>@CurrentMessage?.Message
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="changestate">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Cambio Stato
+            </NavLink>
+        </div>
+
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="oi oi-home" aria-hidden="true"></span> Home
@@ -67,7 +84,7 @@
                 <span class="oi oi-list-rich" aria-hidden="true"></span> DashBoard
             </NavLink>
         </div>
-        
+
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="employees">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Impiegati
@@ -78,6 +95,9 @@
 </div>
 
 @code {
+    [CascadingParameter]
+    public NotifyMessage? CurrentMessage { get; set; }
+
     private bool collapseNavMenu = true;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
@@ -86,4 +106,10 @@
     {
         collapseNavMenu = !collapseNavMenu;
     }
+
+    // protected override void OnInitialized()
+    // {
+    //     AppState.OnChangeMessage +=
+    //         () => StateHasChanged();
+    // }
 }

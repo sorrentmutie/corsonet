@@ -1,23 +1,26 @@
 ﻿@using FirstDemo.Blazor.UI
 @using Microsoft.AspNetCore.Components.Routing
+@using State
 
 
-<CascadingValue Value="CurrentTheme">
-<Router AppAssembly="@typeof(App).Assembly">
-    <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
-    </Found>
-    <NotFound>
-        <PageTitle>Not found</PageTitle>
-        <LayoutView Layout="@typeof(MainLayout)">
-            <p role="alert">Sorry, there's nothing at this address.</p>
-        </LayoutView>
-    </NotFound>
-</Router>
-
-</CascadingValue>
+@* <CascadingValue Value="CurrentTheme"> *@
+@* <CascadingValue IsFixed="false" Value="CurrentMessage"> *@
+    <Router AppAssembly="@typeof(App).Assembly">
+        <Found Context="routeData">
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+        </Found>
+        <NotFound>
+            <PageTitle>Not found</PageTitle>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <p role="alert">Sorry, there's nothing at this address.</p>
+            </LayoutView>
+        </NotFound>
+    </Router>
+@* </CascadingValue> *@
+@* </CascadingValue> *@
 @code {
     private string CurrentTheme = "light";
+    //private NotifyMessage CurrentMessage = new NotifyMessage() { Message = "Hello World" };
 }
 

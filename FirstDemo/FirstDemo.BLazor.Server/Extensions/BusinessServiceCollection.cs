@@ -1,4 +1,5 @@
-﻿using FirstDemo.UI.Kit.Interfaces;
+﻿using FirstDemo.Blazor.UI.State;
+using FirstDemo.UI.Kit.Interfaces;
 
 namespace FirstDemo.BLazor.Server.Extensions;
 
@@ -28,6 +29,9 @@ public static class BusinessServiceCollection
 
         services.AddScoped<IServizioAPIGenerico<Impiegato>, ServizioAPIGenerico<Impiegato>>();
         services.AddScoped<IServizioAPIGenerico<Fornitore>, ServizioAPIGenerico<Fornitore>>();
+
+        services.AddScoped<AppState>();
+        services.AddNotifyingCascadingValue(new NotifyMessage { Message = "Hello World" });
 
         return services;
     }

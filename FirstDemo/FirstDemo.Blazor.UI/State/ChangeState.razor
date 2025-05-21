@@ -1,0 +1,26 @@
+﻿@page "/changestate"
+@inject AppState AppState
+@rendermode InteractiveServer
+
+@CurrentMessage.Message
+
+<button class="btn btn-primary" @onclick="ChangeStateCustomer">Change State Customer</button>
+<button class="btn btn-primary" @onclick="ChangeStateSupplier">Change State Supplier</button>
+
+@code {
+    [CascadingParameter]
+    public NotifyMessage CurrentMessage { get; set; } = default!;
+
+    public void ChangeStateCustomer()
+    {
+        CurrentMessage.Message = "Cliente";
+        //AppState.SetSelectedCustomer("Cliente 1");
+        StateHasChanged();
+    }
+    public void ChangeStateSupplier()
+    {
+        CurrentMessage.Message = "Fornitore";
+        //AppState.SetSelectedSupplier("Fornitore 1");
+        StateHasChanged();
+    }
+}
