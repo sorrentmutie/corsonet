@@ -1,0 +1,8 @@
+﻿@using FirstLibrary.Core.Common
+<h3>User Panel: @UserContext?.UserName</h3>
+
+@code {
+
+    [CascadingParameter]
+    public UserContext UserContext { get; set; } = default!;
+}

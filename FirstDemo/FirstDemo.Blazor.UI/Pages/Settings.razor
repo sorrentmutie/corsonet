@@ -1,0 +1,18 @@
+﻿@page "/settings"
+
+<h3>Settings: @CurrentLanguage</h3>
+<CascadingValue Value="CurrentLanguage">
+    <LanguageSelector LanguageChanged="LanguageChanged" />
+    <ShowLanguage/>
+</CascadingValue>
+
+
+@code {
+    private string CurrentLanguage = "it-IT"; 
+    
+    private void LanguageChanged(string newLanguage)
+    {
+        CurrentLanguage = newLanguage;
+    }
+
+}

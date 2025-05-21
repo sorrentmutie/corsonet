@@ -1,41 +1,56 @@
 ﻿@page "/dashboard"
 @using FirstDemo.Blazor.UI.DataServices
+@using FirstLibrary.Core.Common
 @using FirstLibrary.Core.Northwind
 @inject IDashboardData dashboardData
 
 <MySpinner Visualizza="VisualSpinner" />
-<div class="row">
-@if (cardUltimoOrdine is not null)
-{
-    <MyCard Header="Ultimo Ordine" Title="@cardUltimoOrdine?.NomeCliente" CssClass="primary">
-        <Body>
-            <p class="card-text">Totale Ordine: @cardUltimoOrdine?.Totale.ToString("0.00")</p>
-                <a href="orders/@cardUltimoOrdine?.Id" class="btn btn-primary">Esplora</a>
-        </Body>
-    </MyCard>
-}
 
-@if (cardClienteMigliore is not null)
-{
-    <MyCard Header="Cliente Migliore" Title="@cardClienteMigliore?.NomeCliente" CssClass="secondary">
-        <Body>
-            <p class="card-text">Fatturato: @cardClienteMigliore?.Totale.ToString("0.00")</p>
-                <a href="customers/@cardClienteMigliore?.Id" class="btn btn-secondary">Vai A</a>
-        </Body>
-    </MyCard>
-}
-
-@if (cardProdottoPiuVenduto is not null)
-{
-    <MyCard Header="Articolo più venduto" Title="@cardProdottoPiuVenduto?.NomeProdtto" CssClass="success">
-        <Body>
-                <p class="card-text">Qta ordinata: @cardProdottoPiuVenduto?.Quantita</p>
-        </Body>
-    </MyCard>
-}
+<div class="@CssClass">
+    Questo componente ha ricevuto il tema: @CurrentTheme
 </div>
 
+<div class="row">
+    @if (cardUltimoOrdine is not null)
+    {
+        <MyCard Header="Ultimo Ordine" Title="@cardUltimoOrdine?.NomeCliente" CssClass="primary">
+            <Body>
+                <p class="card-text">Totale Ordine: @cardUltimoOrdine?.Totale.ToString("0.00")</p>
+                <a href="orders/@cardUltimoOrdine?.Id" class="btn btn-primary">Esplora</a>
+            </Body>
+        </MyCard>
+    }
+
+    @if (cardClienteMigliore is not null)
+    {
+        <MyCard Header="Cliente Migliore" Title="@cardClienteMigliore?.NomeCliente" CssClass="secondary">
+            <Body>
+                <p class="card-text">Fatturato: @cardClienteMigliore?.Totale.ToString("0.00")</p>
+                <a href="customers/@cardClienteMigliore?.Id" class="btn btn-secondary">Vai A</a>
+            </Body>
+        </MyCard>
+    }
+
+    @if (cardProdottoPiuVenduto is not null)
+    {
+        <MyCard Header="Articolo più venduto" Title="@cardProdottoPiuVenduto?.NomeProdtto" CssClass="success">
+            <Body>
+                <p class="card-text">Qta ordinata: @cardProdottoPiuVenduto?.Quantita</p>
+            </Body>
+        </MyCard>
+    }
+</div>
+
+<CascadingValue Value="userContext">
+    <UserPanel />
+    <AdminPanel />
+</CascadingValue>
+
 @code {
+
+    UserContext userContext = new UserContext()
+    {  UserName = "Salvatore", IsAdmin = true};
+
     bool VisualSpinner = false;
     CardUltimoOrdine? cardUltimoOrdine;
     CardClienteMigliore? cardClienteMigliore;
@@ -48,4 +63,17 @@
         cardProdottoPiuVenduto = await dashboardData.ProdottoPiuVenduto();
         VisualSpinner = false;
     }
+
+    [CascadingParameter]
+    public string? CurrentTheme { get; set; }
+
+    private string CssClass
+    {
+        get
+        {
+            return CurrentTheme == "dark" ? "bg-dark text-white" : "bg-light text-dark";
+        }
+    }
+
+
 }

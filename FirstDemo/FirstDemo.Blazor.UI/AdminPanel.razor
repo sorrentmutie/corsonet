@@ -1,0 +1,7 @@
+﻿@using FirstLibrary.Core.Common
+<h3>Admin Panel: @UserContext.IsAdmin</h3>
+
+@code {
+    [CascadingParameter]
+    public UserContext UserContext { get; set; } = default!;
+}

@@ -1,0 +1,23 @@
+﻿<h3>LanguageSelector</h3>
+<select value="@CurrentLanguage" @onchange="OnLanguageChanged">
+    <option value="it-IT">Italiano</option>
+    <option value="es-ES">Spagnolo</option>
+    <option value="fr-FR">Francese</option>
+</select>
+
+@code {
+    [CascadingParameter]
+    public string? CurrentLanguage { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<string> LanguageChanged { get; set; } = default!;
+
+    private async Task OnLanguageChanged(ChangeEventArgs e)
+    {
+        if (e?.Value == null)
+            return;
+        CurrentLanguage = e.Value.ToString();
+        await LanguageChanged.InvokeAsync(CurrentLanguage);
+    }
+
+}
