@@ -1,9 +1,6 @@
 ﻿@page "/items"
-@using DemoFluxor.Client.State
-@using Fluxor
 @rendermode InteractiveAuto
-@inject IState<CartState> CartState
-@inject IDispatcher Dispatcher 
+
 
 <h3>Items</h3>
 
@@ -24,6 +21,9 @@
 
 </div>
 
+@CartState.Value.Items.Count() 
+
+
 @if (CartState.Value.Items.Any())
 {
     @foreach (var item in CartState.Value.Items)
@@ -34,15 +34,3 @@
 
 
 
-@code {
-    private string itemName { get; set;  } = string.Empty; 
-    private decimal price { get; set; }
-
-    private void AddItem()
-    {
-        var item = new Item {  Name = itemName, Price = price};
-        var addItemAction = new AddItemToCartAction(item);
-        Dispatcher.Dispatch(addItemAction);
-    }
-
-}

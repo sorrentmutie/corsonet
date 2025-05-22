@@ -1,5 +1,6 @@
 using DemoFluxor.Client.Pages;
 using DemoFluxor.Components;
+using DemoFluxor.State;
 using Fluxor;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,10 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddFluxor(opzioni => opzioni.ScanAssemblies
    (typeof(Program).Assembly));
+
+//builder.Services.AddScoped<CartState>();
+//builder.Services.AddScoped<List<Item>>();
+
 
 var app = builder.Build();
 

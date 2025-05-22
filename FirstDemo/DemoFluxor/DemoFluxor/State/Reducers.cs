@@ -1,6 +1,6 @@
 ﻿using Fluxor;
 
-namespace DemoFluxor.Client.State;
+namespace DemoFluxor.State;
 
 public static class Reducers
 {
@@ -8,7 +8,13 @@ public static class Reducers
     public static CartState ReduceAddItemToCartAction(
         CartState cartState, AddItemToCartAction action)
     {
+        var item = action.ItemToAdd;
+        if(item is not null)
+        {
+            cartState.Items.Add(item);
+        }        
+
         return new CartState(
-            cartState.Items.Add(action.ItemToAdd));
+            cartState.Items);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace DemoFluxor.Client.State;
+﻿namespace DemoFluxor.State;
 
 public class AddItemToCartAction
 {
