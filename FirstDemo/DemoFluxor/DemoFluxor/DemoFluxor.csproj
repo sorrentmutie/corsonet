@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ServiceDefaults\ServiceDefaults.csproj" />
+    <ProjectReference Include="..\DemoFluxor.Client\DemoFluxor.Client.csproj" />
+    <PackageReference Include="Fluxor" Version="6.7.0-Beta1" />
+    <PackageReference Include="Fluxor.Blazor.Web" Version="6.7.0-Beta1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.5" />
+  </ItemGroup>
+
+</Project>

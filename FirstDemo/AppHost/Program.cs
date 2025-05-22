@@ -6,4 +6,6 @@ var web = builder.AddProject<Projects.FirstDemo_BLazor_Server>("server")
     .WithReference(api)
     .WithExternalHttpEndpoints();
 
+builder.AddProject<Projects.DemoFluxor>("demofluxor");
+
 builder.Build().Run();

@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DemoFluxor\DemoFluxor\DemoFluxor.csproj" />
     <ProjectReference Include="..\FirstDemo.API\FirstDemo.API.csproj" />
     <ProjectReference Include="..\FirstDemo.BLazor.Server\FirstDemo.BLazor.Server.csproj" />
   </ItemGroup>

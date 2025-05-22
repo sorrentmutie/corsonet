@@ -18,4 +18,8 @@
     <ProjectReference Include="..\..\DemoNet8.Core\DemoNet8.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="State\" />
+  </ItemGroup>
+
 </Project>
